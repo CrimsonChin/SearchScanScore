@@ -9,15 +9,24 @@
     margin: 5px 0px;
 }
 
-.team {
+.guard {
     padding: 10px;
     border: 2px solid red;
+    margin: 5px;
+    width: 500px;
+    display: inline-block;
+}
+
+.team {
+    padding: 10px;
+    border: 2px solid blue;
     margin: 5px 0px;
 }
 
+
 .player {
     padding: 10px;
-    border: 2px solid blue;
+    border: 2px solid lightblue;
     margin: 5px;
     width: 500px;
     height: 400px;

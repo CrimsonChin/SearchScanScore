@@ -11,6 +11,7 @@ namespace Data.Sql.Data
 
         public DbSet<Game> Games { get; set; }
         public DbSet<Team> Teams { get; set; }
+        public DbSet<Guard> Guards { get; set; }
         public DbSet<CollectableItem> CollectableItems { get; set; }
         public DbSet<CollectedItem> CollectedItems { get; set; }    
 
@@ -23,6 +24,9 @@ namespace Data.Sql.Data
                 .ToTable("Team")
                 .HasMany(x => x.CollectedItems)
                 .WithOne(x => x.Team);
+
+            modelBuilder.Entity<Guard>()
+                .ToTable("Guard");
 
             modelBuilder.Entity<CollectableItem>()
                 .ToTable("CollectableItem");

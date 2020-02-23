@@ -8,6 +8,7 @@ namespace SearchScanScore.Services.Models
         public Game()
         {
             Teams = Enumerable.Empty<Team>();
+            Guards = Enumerable.Empty<Guard>();
             CollectableItems = Enumerable.Empty<CollectableItem>();
         }
 
@@ -20,6 +21,8 @@ namespace SearchScanScore.Services.Models
         public IEnumerable<Team> Teams { get; set; }
 
         public IEnumerable<CollectableItem> CollectableItems { get; set; }
+
+        public IEnumerable<Guard> Guards { get; set; }
 
         public bool IsActive { get; set; }
     }

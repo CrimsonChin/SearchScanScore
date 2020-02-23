@@ -1,6 +1,6 @@
 import React from 'react'
 import TeamService from '../../Services/TeamService'
-import Player from './teamMember'
+import Player from './player'
 
 class TeamHarness extends React.Component {
     constructor(props) {
@@ -68,10 +68,10 @@ class TeamHarness extends React.Component {
 
       return (
           <div className="team">
-            <h3>Team {this.props.teamName}</h3>
+            <h3>{this.props.teamName}</h3>
             <h4>Game Id: {this.props.gameId} Team Id: {this.props.teamId}  <button onClick={this.canJoinTeam}>Add Player</button> </h4>
               {this.state.players.map((item, i) => 
-                <Player gameId={this.props.gameId} teamId={this.props.teamId} playerNumber={i}></Player>
+                <Player gameId={this.props.gameId} teamId={this.props.teamId} playerNumber={i + 1}></Player>
               ) }
         </div>
       );
