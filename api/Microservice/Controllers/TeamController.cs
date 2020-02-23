@@ -54,7 +54,6 @@ namespace Microservice.Controllers
                 return null;
             }
 
-
             var collectedItems = _teamService.GetCollectedItems(gameExternalId, teamExternalId);
 
             var remainingCollectableItems = game.CollectableItems.Where(x =>

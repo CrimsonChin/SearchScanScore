@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace Data.Sql.Entities
 {
@@ -14,5 +16,7 @@ namespace Data.Sql.Entities
 
         public int GameId { get; set; }
         public Game Game { get; set; }
+
+        public IEnumerable<Sighting> Sightings { get; set; }
     }
 }

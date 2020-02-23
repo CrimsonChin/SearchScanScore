@@ -14,5 +14,7 @@ namespace Data.Sql.Entities
         public Game Game { get; set; }
 
         public ICollection<CollectedItem> CollectedItems { get; set; }
+
+        public IEnumerable<Sighting> Sightings { get; set; }
     }
 }
