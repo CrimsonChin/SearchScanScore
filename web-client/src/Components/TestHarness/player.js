@@ -1,5 +1,7 @@
 import React from 'react'
 import TeamService from '../../Services/TeamService'
+import Tabs from '../Tabs/tabs';
+require('../Tabs/styles.css');
 
 class Player extends React.Component {
     constructor(props) {
@@ -51,22 +53,23 @@ class Player extends React.Component {
       return (
           <div className="player">
             <h4>Player {this.props.playerNumber}</h4>
-                  
-                  <div>Team Sighted By Guards: {this.state.sightings.length}
-                  { this.state.sightings.length > 0 && (
+                  <div className="input">
+                  <input type="text" name="collectableItemId" value={this.state.collectableItemId} onChange={this.handleChange} />
+                  <button onClick={this.collect} >Collect Item</button>
+                  <button onClick={this.get} >Refresh</button>
+                  </div>
+            <Tabs>
+              
+              <div label="Sightings">
+                <div>Team Sighted By Guards: {this.state.sightings.length}
                       <ul>
                         {this.state.sightings.map((item, i) => 
                           <li key={i}>{item.SightedAt} - {item.SightedBy}</li>
                           ) }
                       </ul>
-                  )}
                   </div>
-                  
-                  <input type="text" name="collectableItemId" value={this.state.collectableItemId} onChange={this.handleChange} />
-                  <button onClick={this.collect} >Collect Item</button>
-                  <button onClick={this.get} >Refresh</button>
-                  
-                  { this.state.collectedItems.length > 0 && (
+              </div>
+              <div label="Found Items">
                     <div>Team Collected Items {this.state.collectedItems.length}
                       <ul>
                         {this.state.collectedItems.map((item, i) => 
@@ -74,7 +77,16 @@ class Player extends React.Component {
                         ) }
                       </ul>
                     </div>
-                  )}
+              </div>
+              <div label="Remaining">
+                TODO: List all game items sans found ones
+              </div>
+            </Tabs>
+
+ 
+                  
+
+
         </div>
       );
     }
