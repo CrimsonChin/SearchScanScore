@@ -47,6 +47,11 @@ namespace Microservice.Controllers
             var collectedItems = _teamService.GetCollectedItems(gameExternalId, teamExternalId);
             var sightings = _teamService.GetSightings(gameExternalId, teamExternalId);
 
+            var remainingCollectableItems = game.CollectableItems.Where(x =>
+                !collectedItems
+                    .Select(y => y.CollectableItemId)
+                    .Contains(x.ExternalId)).ToList();
+
             return JsonConvert.SerializeObject(new
             {
                 team.ExternalId,
@@ -63,7 +68,10 @@ namespace Microservice.Controllers
                         ExternalId = x.CollectableItemId,
                         Name = x.CollectableItemName,
                         CollectedAt = x.CollectedAt.ToString("g")
-                    }).ToList()
+                    }).ToList(),
+                RemainingCollectedItems = remainingCollectableItems.Select(x => new {
+                    x.Name
+                })
             });
         }
     }
