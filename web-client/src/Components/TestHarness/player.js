@@ -7,9 +7,8 @@ class Player extends React.Component {
 
         this.state = {
           collectableItemId: "",
-          remainingItems: [],
+          sightings: [],
           collectedItems: [],
-          showRemaingItemExternalIds: true
         }
     }
 
@@ -17,39 +16,34 @@ class Player extends React.Component {
       this.setState({collectableItemId: event.target.value});
     }
 
-    handleChangeChk = (event) => {
-      this.setState({showRemaingItemExternalIds: !this.state.showRemaingItemExternalIds})
-    }
-
     collect = (event) => {
       console.log("Collecting Item: ", this.state.collectableItemId)
       TeamService.collectItem(this.props.gameId, this.props.teamId, this.state.collectableItemId).then((data) => {
         console.log(data)
         this.setState({
-          remainingItems: data.RemainingCollectableItems,
-          collectedItems: data.ItemsCollected,
           collectableItemId: ""
         })
+        this.get()
       })
     }
 
-    collected = (event) => {
-      console.log("Getting Collected Items")
-      TeamService.getCollectedItems(this.props.gameId, this.props.teamId).then((data) => {
+    get = (event) => {
+      console.log("Team -> Get")
+      TeamService.get(this.props.gameId, this.props.teamId).then((data) => {
         console.log(data)
         data = data || {
-          RemainingCollectableItems : [],
-          ItemsCollected: []
+          ItemsCollected: [],
+          Sightings: []
         }
         this.setState({
-          remainingItems: data.RemainingCollectableItems,
-          collectedItems: data.ItemsCollected
+          collectedItems: data.ItemsCollected,
+          sightings: data.Sightings
         })
       })
     }
 
     componentDidMount() {
-      this.collected();
+      this.get();
     }
 
     render() {
@@ -57,28 +51,26 @@ class Player extends React.Component {
       return (
           <div className="player">
             <h4>Player {this.props.playerNumber}</h4>
+                  
+                  <div>Team Sighted By Guards: {this.state.sightings.length}
+                  { this.state.sightings.length > 0 && (
+                      <ul>
+                        {this.state.sightings.map((item, i) => 
+                          <li key={i}>{item.SightedAt} - {item.SightedBy}</li>
+                          ) }
+                      </ul>
+                  )}
+                  </div>
+                  
                   <input type="text" name="collectableItemId" value={this.state.collectableItemId} onChange={this.handleChange} />
                   <button onClick={this.collect} >Collect Item</button>
-                  <button onClick={this.collected} >Get Collected Items (Refresh)</button>
-                  <br/>
-                  <input type="checkbox" name="showRemaingItemExternalIds" defaultChecked={this.state.showRemaingItemExternalIds} onChange={this.handleChangeChk} />
-                  <label htmlFor="showRemaingItemExternalIds">Show External Ids</label>
-                  
-                  { this.state.remainingItems.length > 0 && (
-                    <div>Remaining Items {this.state.remainingItems.length} / {this.state.collectedItems.length  + this.state.remainingItems.length} 
-                      <ul>
-                        {this.state.remainingItems.map((item, i) => 
-                          <li key={i}>{this.state.showRemaingItemExternalIds && ( <> {item.ExternalId} - </> )}{item.Name}</li>
-                        ) }
-                      </ul>
-                    </div>
-                  )}
+                  <button onClick={this.get} >Refresh</button>
                   
                   { this.state.collectedItems.length > 0 && (
-                    <div>Collected Items {this.state.collectedItems.length} / {this.state.collectedItems.length  + this.state.remainingItems.length}
+                    <div>Team Collected Items {this.state.collectedItems.length}
                       <ul>
                         {this.state.collectedItems.map((item, i) => 
-                          <li key={i}>{item.CollectedAt} - {this.state.showRemaingItemExternalIds && ( <>{item.ExternalId} - </> )}{item.Name}</li>
+                          <li key={i}>{item.CollectedAt} - {item.Name}</li>
                         ) }
                       </ul>
                     </div>
