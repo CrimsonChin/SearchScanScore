@@ -69,7 +69,7 @@ namespace Microservice.Controllers
                         Name = x.CollectableItemName,
                         CollectedAt = x.CollectedAt.ToString("g")
                     }).ToList(),
-                RemainingCollectedItems = remainingCollectableItems.Select(x => new {
+                RemainingItems = remainingCollectableItems.Select(x => new {
                     x.Name
                 })
             });
