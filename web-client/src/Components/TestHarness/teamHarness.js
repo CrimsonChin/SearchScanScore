@@ -35,8 +35,9 @@ class TeamHarness extends React.Component {
     render() {
       return (
           <div className="team">
+            <>
             <h3>{this.props.teamName} ({this.props.teamId}) <button onClick={this.canJoinTeam}>Add Player</button></h3>
-            
+            </>
             {this.players()}
         </div>
       );

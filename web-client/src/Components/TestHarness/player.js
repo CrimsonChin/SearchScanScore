@@ -11,6 +11,7 @@ class Player extends React.Component {
           collectableItemId: "",
           sightings: [],
           collectedItems: [],
+          remainingItems: [],
         }
     }
 
@@ -35,10 +36,12 @@ class Player extends React.Component {
         console.log(data)
         data = data || {
           ItemsCollected: [],
-          Sightings: []
+          Sightings: [],
+          RemainingItems: []
         }
         this.setState({
           collectedItems: data.ItemsCollected,
+          remainingItems: data.RemainingItems,
           sightings: data.Sightings
         })
       })
@@ -53,40 +56,40 @@ class Player extends React.Component {
       return (
           <div className="player">
             <h4>Player {this.props.playerNumber}</h4>
-                  <div className="input">
-                  <input type="text" name="collectableItemId" value={this.state.collectableItemId} onChange={this.handleChange} />
-                  <button onClick={this.collect} >Collect Item</button>
-                  <button onClick={this.get} >Refresh</button>
-                  </div>
+            <div className="input">
+              <input type="text" name="collectableItemId" value={this.state.collectableItemId} onChange={this.handleChange} />
+              <button onClick={this.collect} >Collect Item</button>
+              <button onClick={this.get} >Refresh</button>
+            </div>
+
             <Tabs>
-              
+              <div label="Remaining">
+                Remaining Items {this.state.remainingItems.length}
+                <ol>
+                  {this.state.remainingItems.map((item, i) => 
+                    <li key={i}>{item.Name}</li>
+                  ) }
+                </ol>
+              </div>
               <div label="Sightings">
                 <div>Team Sighted By Guards: {this.state.sightings.length}
-                      <ul>
-                        {this.state.sightings.map((item, i) => 
-                          <li key={i}>{item.SightedAt} - {item.SightedBy}</li>
-                          ) }
-                      </ul>
-                  </div>
+                  <ol>
+                    {this.state.sightings.map((item, i) => 
+                      <li key={i}>{item.SightedAt} - {item.SightedBy}</li>
+                      ) }
+                  </ol>
+                </div>
               </div>
               <div label="Found Items">
-                    <div>Team Collected Items {this.state.collectedItems.length}
-                      <ul>
-                        {this.state.collectedItems.map((item, i) => 
-                          <li key={i}>{item.CollectedAt} - {item.Name}</li>
-                        ) }
-                      </ul>
-                    </div>
-              </div>
-              <div label="Remaining">
-                TODO: List all game items sans found ones
+                <div>Team Collected Items {this.state.collectedItems.length}
+                  <ol>
+                    {this.state.collectedItems.map((item, i) => 
+                      <li key={i}>{item.CollectedAt} - {item.Name}</li>
+                    ) }
+                  </ol>
+                </div>
               </div>
             </Tabs>
-
- 
-                  
-
-
         </div>
       );
     }

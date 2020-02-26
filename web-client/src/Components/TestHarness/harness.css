@@ -21,6 +21,7 @@
     padding: 10px;
     border: 2px solid blue;
     margin: 5px 0px;
+    display: flow-root;   
 }
 
 
@@ -30,7 +31,7 @@
     margin: 5px;
     width: 400px;
     height: 350px;
-    display: inline-block;
+    float: left;
 }
 
 .input {
