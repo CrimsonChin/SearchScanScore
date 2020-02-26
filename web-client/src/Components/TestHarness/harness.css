@@ -32,3 +32,8 @@
     height: 350px;
     display: inline-block;
 }
+
+.input {
+    background: #eee;
+    padding: 10px;
+}
