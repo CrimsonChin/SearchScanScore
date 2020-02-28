@@ -78,6 +78,31 @@ namespace Data.Sql.Services
             _context.SaveChanges();
         }
 
+        public void Reset(string gameExternalId)
+        {
+            var game = _context.Games
+                .Include(x => x.Teams)
+                .ThenInclude(x => x.CollectedItems)
+                .Include(x => x.Teams)
+                .ThenInclude(x => x.Sightings)
+                .SingleOrDefault(x => x.ExternalId == gameExternalId);
+
+            if (game == null)
+            {
+                throw new ArgumentNullException($"No game with {gameExternalId} found");
+            }
+
+            game.IsActive = false;
+
+            foreach (var team in game.Teams)
+            {
+                _context.CollectedItems.RemoveRange(team.CollectedItems);
+                _context.Sightings.RemoveRange(team.Sightings);
+            }
+            
+            _context.SaveChanges();
+        }
+
         private void SetIsActiveState(string gameExternalId, bool isActive)
         {
             var game = GetGame(gameExternalId);

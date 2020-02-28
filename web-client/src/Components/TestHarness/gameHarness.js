@@ -58,10 +58,10 @@ class GameHarness extends React.Component {
     }
 
     reset = () => {
-      console.log("Removing teams collected items (well, collected items)")
-       GameService.resetCollectedItems(this.props.gameId).then((data) => {
-         console.log("items removed", data)
+      console.log("Reset")
+       GameService.reset(this.props.gameId).then((data) => {
          console.log(data)
+         window.location = window.location;
        })
     }
 
@@ -97,7 +97,7 @@ class GameHarness extends React.Component {
 
               <button onClick={this.start}>Start Game</button>
               <button onClick={this.stop}>Stop Game</button>
-              <button onClick={this.reset}>Remove All Teams Collected Items</button>
+              <button onClick={this.reset}>Reset</button>
             </div>
             </div>
       );

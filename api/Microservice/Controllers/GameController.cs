@@ -32,7 +32,13 @@ namespace Microservice.Controllers
         {
             _gameService.ResetCollectedItems(gameExternalId);
         }
-        
+
+        [HttpPost("Reset/{gameExternalId}")]
+        public void Reset(string gameExternalId)
+        {
+            _gameService.Reset(gameExternalId);
+        }
+
         [HttpGet("Get/{gameExternalId}")]
         public ActionResult<string> Get(string gameExternalId)
         {

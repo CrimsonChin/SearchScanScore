@@ -21,6 +21,11 @@ class GameService {
         .then(res => res.data)
     }
 
+    reset(gameId){
+        return this.api.post(`Game/Reset/${gameId}`)
+        .then(res => res.data)
+    }
+
     get(gameId){
         return this.api.get(`Game/Get/${gameId}`)
         .then(res => res.data)
