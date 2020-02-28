@@ -33,18 +33,18 @@ namespace Data.Sql.Services
             var team = activeGame.Teams.SingleOrDefault(x => x.ExternalId == teamExternalId);
             if (team == null)
             {
-                throw new ArgumentNullException("No team found");
+                throw new ArgumentNullException($"No team found with externalId {teamExternalId}");
             }
 
             var item = activeGame.CollectableItems.SingleOrDefault(x => x.ExternalId == itemExternalId);
             if (item == null)
             {
-                throw new ArgumentNullException("No item found");
+                throw new ArgumentNullException($"No item found with externalId {itemExternalId}");
             }
 
             if (team.CollectedItems.Any(x => x.CollectableItem.ExternalId == itemExternalId))
             {
-                throw new ArgumentNullException("Item already collected");
+                throw new ArgumentNullException($"Item {itemExternalId} already collected");
             }
 
             _context.CollectedItems.Add(new Entities.CollectedItem
