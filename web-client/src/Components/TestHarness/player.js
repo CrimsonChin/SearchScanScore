@@ -85,7 +85,7 @@ class Player extends React.Component {
           .then(() => {
             console.log('Connection started!')
             console.log("Joining Team Hub **************************** " + this.props.teamId)
-            this.state.teamHubConnection.invoke("Join", this.props.teamId)
+            this.state.teamHubConnection.invoke("Join", this.props.gameId, this.props.teamId)
             .catch(function (err) {
                 return console.error(err.toString())
             });

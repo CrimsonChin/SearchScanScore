@@ -1,6 +1,6 @@
 import React from 'react'
 import GameService from '../../Services/GameService'
-import { HubConnectionBuilder, HttpTransportType, LogLevel } from '@microsoft/signalr';
+import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 
 class GameHarness extends React.Component {
     constructor(props) {

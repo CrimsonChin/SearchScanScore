@@ -12,19 +12,14 @@ namespace Microservice.NotificationServices
 
         void ITeamNotificationService.SendItemFoundNotification(string gameExternalId, string teamExternalId, string collectableItemExternalId)
         {
-            var key = Key(gameExternalId, teamExternalId);
+            var key = TeamKey.Generate(gameExternalId, teamExternalId);
             HubContext.Clients.Group(key).SendAsync("ItemFound", collectableItemExternalId);
         }
 
         void ITeamNotificationService.SendSightedNotification(string gameExternalId, string teamExternalId, string guardExternalId)
         {
-            var key = Key(gameExternalId, teamExternalId);
+            var key = TeamKey.Generate(gameExternalId, teamExternalId);
             HubContext.Clients.Group(key).SendAsync("Sighted", guardExternalId);
-        }
-
-        private string Key(string gameExternalId, string teamExternalId)
-        {
-            return $"{gameExternalId}-{teamExternalId}";
         }
     }
 }
