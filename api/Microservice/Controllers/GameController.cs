@@ -37,6 +37,10 @@ namespace Microservice.Controllers
         public ActionResult<string> Get(string gameExternalId)
         {
             var game = _gameService.Get(gameExternalId);
+            if (game == null)
+            {
+                return NotFound($"No Game with external id {gameExternalId} found");
+            }
 
             return JsonConvert.SerializeObject(game);
         }

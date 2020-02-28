@@ -1,6 +1,8 @@
 import React from 'react'
 import TeamService from '../../Services/TeamService'
 import Tabs from '../Tabs/tabs';
+import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
+
 require('../Tabs/styles.css');
 
 class Player extends React.Component {
@@ -8,6 +10,7 @@ class Player extends React.Component {
         super(props);
 
         this.state = {
+          hubConnection: null,
           collectableItemId: "",
           sightings: [],
           collectedItems: [],
@@ -26,7 +29,7 @@ class Player extends React.Component {
         this.setState({
           collectableItemId: ""
         })
-        this.get()
+        // this.get()
       })
     }
 
@@ -47,8 +50,60 @@ class Player extends React.Component {
       })
     }
 
-    componentDidMount() {
+    componentDidMount = () => {
       this.get();
+
+      // const hubConnection = new HubConnectionBuilder()
+      // .withUrl("https://localhost:44394/chatHub")
+      // .configureLogging(LogLevel.Trace)
+      // .build()
+  
+    
+      // this.setState({ hubConnection }, () => {
+      //   this.state.hubConnection
+      //     .start()
+      //     .then(() => console.log('Connection started!'))
+      //     .catch(err => console.log('Error while establishing connection :('))
+          
+      //     this.state.hubConnection.on('ReceiveMessage', (user, receivedMessage) => {
+      //       const text = `${user} says ${receivedMessage}`;
+            
+      //       this.setState({ 
+      //         message: text
+      //        });
+      //     });
+      // })
+
+      const teamHubConnection = new HubConnectionBuilder()
+      .withUrl("https://localhost:44394/teamHub")
+      .configureLogging(LogLevel.Trace)
+      .build()
+    
+      this.setState({ teamHubConnection }, () => {
+        this.state.teamHubConnection
+          .start()
+          .then(() => {
+            console.log('Connection started!')
+            console.log("Joining Team Hub **************************** " + this.props.teamId)
+            this.state.teamHubConnection.invoke("Join", this.props.teamId)
+            .catch(function (err) {
+                return console.error(err.toString())
+            });
+          })
+          .catch(err => console.log('Error while establishing connection :('))
+
+          this.state.teamHubConnection.on('Sighted', (guardId) => {
+            console.log(`${this.props.teamId} SIGHTED BY ${guardId}`)
+            this.get()
+          });
+
+          this.state.teamHubConnection.on('ItemFound', (itemId) => {
+            console.log(`${this.props.teamId} FOUND ${itemId}`)
+            this.get()
+          });
+      });
+
+
     }
 
     render() {
@@ -61,6 +116,8 @@ class Player extends React.Component {
               <button onClick={this.collect} >Collect Item</button>
               <button onClick={this.get} >Refresh</button>
             </div>
+
+            <div>{this.state.message}</div>
 
             <Tabs>
               <div label="Remaining">

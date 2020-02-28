@@ -1,17 +1,41 @@
 import React from 'react'
 import GameService from '../../Services/GameService'
+import { HubConnectionBuilder, HttpTransportType, LogLevel } from '@microsoft/signalr';
 
 class GameHarness extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
+          message: "",
           gameDefinition: this.props.gameDefinition,
           isActive: this.props.isActive,
           collectableItems: this.props.collectableItems
         }
     }
 
+    componentDidMount = () => {
+      const hubConnection = new HubConnectionBuilder()
+      .withUrl("https://localhost:44394/chatHub")
+      .configureLogging(LogLevel.Trace)
+      .build()
+  
+    
+      this.setState({ hubConnection: hubConnection }, () => {
+        this.state.hubConnection
+          .start()
+          .then(() => console.log('Connection started!'))
+          .catch(err => console.log('Error while establishing connection :(', err));
+      })
+    }
+
+    sendMessage = (e) => {
+      this.state.hubConnection.invoke("SendMessage", "Admin", this.state.message)
+      .catch(function (err) {
+          return console.error(err.toString())
+      });
+      e.preventDefault()
+    }
    
     start = () => {
       console.log("Starting Game")
@@ -52,12 +76,17 @@ class GameHarness extends React.Component {
        })
     }
 
+    handleChange = (event) => {
+      this.setState({message: event.target.value});
+    }
+
     render() {
       return (
             <div>
               <h2>Game ({this.props.gameId})</h2>
               <div className="game">
               <div>Game Status: {this.state.isActive ? "Active" : "Stopped"}</div>
+              <div><input type="text" value={this.state.message} onChange={this.handleChange}></input><button onClick={this.sendMessage}>Send</button></div>
               <div>Collectable Items {this.state.collectableItems.length}
                 <ol>
                   {this.state.collectableItems.map((item, i) => 

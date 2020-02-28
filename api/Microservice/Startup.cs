@@ -1,5 +1,7 @@
 ﻿using Data.Sql.Data;
 using Data.Sql.Services;
+using Microservice.Hubs;
+using Microservice.NotificationServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using SearchScanScore.Services.Interfaces;
+using SearchScanScore.Services.Models;
 
 namespace Microservice
 {
@@ -29,16 +32,26 @@ namespace Microservice
             services.AddScoped<IGameService, GameService>();
             services.AddScoped<ITeamService, TeamService>();
             services.AddScoped<IGuardService, GuardService>();
+            services.AddScoped<ITeamNotificationService, TeamNotificationService>();
 
             // TODO bootstrap
             //services.AddMemoryCache();
             services.AddDbContext<SearchScanScoreContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddCors();
+            services.AddCors(options => options.AddPolicy("CorsPolicy",
+                builder =>
+                {
+                    builder.AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .WithOrigins("http://localhost:3000")
+                        .AllowCredentials();
+                }));
+
+            services.AddSignalR();
 
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             services.AddSwaggerGen(c =>
             {
@@ -53,7 +66,7 @@ namespace Microservice
             {
                 app.UseDeveloperExceptionPage();
 
-                app.UseCors(options => options.WithOrigins("http://localhost:3000").AllowAnyMethod());
+                app.UseCors("CorsPolicy");
 
                 // Enable middleware to serve generated Swagger as a JSON endpoint.
                 app.UseSwagger();
@@ -76,6 +89,8 @@ namespace Microservice
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<AdminHub>("/chatHub");
+                endpoints.MapHub<TeamHub>("/teamHub");
             });
         }
     }
