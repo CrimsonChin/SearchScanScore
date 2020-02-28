@@ -30,7 +30,7 @@ class GameHarness extends React.Component {
     }
 
     sendMessage = (e) => {
-      this.state.hubConnection.invoke("SendMessage", "Admin", this.state.message)
+      this.state.hubConnection.invoke("SendMessage", this.state.message)
       .catch(function (err) {
           return console.error(err.toString())
       });

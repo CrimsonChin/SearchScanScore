@@ -29,7 +29,6 @@ class Player extends React.Component {
         this.setState({
           collectableItemId: ""
         })
-        // this.get()
       })
     }
 
@@ -53,26 +52,26 @@ class Player extends React.Component {
     componentDidMount = () => {
       this.get();
 
-      // const hubConnection = new HubConnectionBuilder()
-      // .withUrl("https://localhost:44394/chatHub")
-      // .configureLogging(LogLevel.Trace)
-      // .build()
+      const hubConnection = new HubConnectionBuilder()
+      .withUrl("https://localhost:44394/chatHub")
+      .configureLogging(LogLevel.Trace)
+      .build()
   
     
-      // this.setState({ hubConnection }, () => {
-      //   this.state.hubConnection
-      //     .start()
-      //     .then(() => console.log('Connection started!'))
-      //     .catch(err => console.log('Error while establishing connection :('))
+      this.setState({ hubConnection }, () => {
+        this.state.hubConnection
+          .start()
+          .then(() => console.log('Connection started!'))
+          .catch(err => console.log('Error while establishing connection :('))
           
-      //     this.state.hubConnection.on('ReceiveMessage', (user, receivedMessage) => {
-      //       const text = `${user} says ${receivedMessage}`;
+          this.state.hubConnection.on('AdminMessage', (message) => {
+            const text = `ADMIN MESSAGE: ${message}`;
             
-      //       this.setState({ 
-      //         message: text
-      //        });
-      //     });
-      // })
+            this.setState({ 
+              message: text
+             });
+          });
+      })
 
       const teamHubConnection = new HubConnectionBuilder()
       .withUrl("https://localhost:44394/teamHub")
