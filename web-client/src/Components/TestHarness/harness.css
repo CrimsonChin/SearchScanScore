@@ -9,17 +9,32 @@
     margin: 5px 0px;
 }
 
-.team {
+.guard {
     padding: 10px;
     border: 2px solid red;
-    margin: 5px 0px;
+    margin: 5px;
+    width: 500px;
+    display: inline-block;
 }
+
+.team {
+    padding: 10px;
+    border: 2px solid blue;
+    margin: 5px 0px;
+    display: flow-root;   
+}
+
 
 .player {
     padding: 10px;
-    border: 2px solid blue;
+    border: 2px solid lightblue;
     margin: 5px;
-    width: 500px;
-    height: 400px;
-    display: inline-block;
+    width: 400px;
+    height: 350px;
+    float: left;
+}
+
+.input {
+    background: #eee;
+    padding: 10px;
 }

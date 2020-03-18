@@ -57,18 +57,6 @@ namespace Data.Sql.Services
             _context.SaveChanges();
         }
 
-        int ITeamService.GetTeamScore(string gameExternalId, string teamExternalId)
-        {
-            var team = _context.Teams
-                .Where(x => x.ExternalId == teamExternalId
-                            && x.Game.ExternalId == gameExternalId
-                            && x.Game.IsActive)
-                .Include(x => x.CollectedItems)
-                .FirstOrDefault();
-
-            return team?.CollectedItems?.Count ?? 0;
-        }
-
         IList<SearchScanScore.Services.Models.CollectedItem> ITeamService.GetCollectedItems(string gameExternalId, string teamExternalId)
         {
             var team = _context.Teams
@@ -88,6 +76,24 @@ namespace Data.Sql.Services
                            CollectableItemName = x.CollectableItem.Name,
                            CollectedAt = x.CollectedAt
                        }).ToList() ?? new List<SearchScanScore.Services.Models.CollectedItem>();
+        }
+
+        IEnumerable<SearchScanScore.Services.Models.Sighting> ITeamService.GetSightings(string gameExternalId, string teamExternalId)
+        {
+            var team = _context.Teams
+                .Where(x => x.ExternalId == teamExternalId
+                            && x.Game.ExternalId == gameExternalId
+                            && x.Game.IsActive)
+                .Include(x => x.Sightings)
+                .ThenInclude(y => y.Guard)
+                .FirstOrDefault();
+
+            return team?.Sightings
+                       .Select(x => new SearchScanScore.Services.Models.Sighting
+                       {
+                           SightedAt = x.SightedAt,
+                           SightedBy = x.Guard.Name
+                       }).ToList() ?? new List<SearchScanScore.Services.Models.Sighting>();
         }
     }
 }

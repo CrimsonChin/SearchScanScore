@@ -16,8 +16,8 @@ class TeamService {
         .then(res => res.data)
     }
 
-    getCollectedItems(gameId, teamId){
-        return this.api.get(`Team/GetCollectedItems/${gameId}/${teamId}`)
+    get(gameId, teamId){
+        return this.api.get(`Team/Get/${gameId}/${teamId}`)
         .then(res => res.data)
     }
 };

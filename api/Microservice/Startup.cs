@@ -28,6 +28,7 @@ namespace Microservice
             // TODO bootstrap
             services.AddScoped<IGameService, GameService>();
             services.AddScoped<ITeamService, TeamService>();
+            services.AddScoped<IGuardService, GuardService>();
 
             // TODO bootstrap
             //services.AddMemoryCache();

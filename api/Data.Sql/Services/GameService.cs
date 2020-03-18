@@ -20,6 +20,7 @@ namespace Data.Sql.Services
         {
             var game = _context.Games
                 .Include(x => x.Teams)
+                .Include(x => x.Guards)
                 .Include(x => x.CollectableItems)
                 .SingleOrDefault(x => x.ExternalId == gameExternalId);
 
@@ -33,6 +34,12 @@ namespace Data.Sql.Services
                     ExternalId = x.ExternalId,
                     Name = x.Name
                 }),
+                Guards = game.Guards.Select(x => new Guard
+                {
+                    ExternalId = x.ExternalId,
+                    Name = x.Name
+                }),
+
                 CollectableItems = game.CollectableItems.Select(x => new CollectableItem
                 {
                     ExternalId = x.ExternalId,

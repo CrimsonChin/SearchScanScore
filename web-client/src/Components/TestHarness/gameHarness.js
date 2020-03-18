@@ -55,16 +55,15 @@ class GameHarness extends React.Component {
     render() {
       return (
             <div>
-              <h2>Game</h2>
+              <h2>Game ({this.props.gameId})</h2>
               <div className="game">
-              <div>Id: {this.props.gameId}</div> 
               <div>Game Status: {this.state.isActive ? "Active" : "Stopped"}</div>
               <div>Collectable Items {this.state.collectableItems.length}
-                <ul>
+                <ol>
                   {this.state.collectableItems.map((item, i) => 
                     <li key={i}>{item.ExternalId} - {item.Name}</li>
                   ) }
-                </ul>
+                </ol>
               </div>
 
               <button onClick={this.start}>Start Game</button>

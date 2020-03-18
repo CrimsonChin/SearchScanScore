@@ -39,13 +39,48 @@ namespace Data.Sql.Data
                     GameId = 1,
                     Name = "Saxons",
                     ExternalId = "A8THQ"
-                }
+                },
+                new Team
+                {
+                    TeamId = 3,
+                    GameId = 1,
+                    Name = "Mercians",
+                    ExternalId = "FJ7EM"
+                },
             };
+
 
             foreach (var team in teams)
             {
                 context.Teams.Add(team);
             }
+
+            context.SaveChanges();
+
+            var guards = new[]
+            {
+                new Guard
+                {
+                    GuardId = 1,
+                    GameId = 1,
+                    Name = "Strict Jeremy",
+                    ExternalId = "Y709W"
+                },
+                new Guard
+                {
+                    GuardId = 2,
+                    GameId = 1,
+                    Name = "Watchful Mark",
+                    ExternalId = "JA9L6"
+                }
+            };
+
+            foreach (var guard in guards)
+            {
+                context.Guards.Add(guard);
+            }
+
+            context.SaveChanges();
 
             var collectableItems = new List<CollectableItem>
             {
