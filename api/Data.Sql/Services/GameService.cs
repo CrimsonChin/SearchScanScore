@@ -24,6 +24,11 @@ namespace Data.Sql.Services
                 .Include(x => x.CollectableItems)
                 .SingleOrDefault(x => x.ExternalId == gameExternalId);
 
+            if (game == null)
+            {
+                return null;
+            }
+
             return new Game
             {
                 ExternalId = gameExternalId,
@@ -87,11 +92,6 @@ namespace Data.Sql.Services
                 .ThenInclude(x => x.Sightings)
                 .SingleOrDefault(x => x.ExternalId == gameExternalId);
 
-            if (game == null)
-            {
-                throw new ArgumentNullException($"No game with {gameExternalId} found");
-            }
-
             game.IsActive = false;
 
             foreach (var team in game.Teams)
@@ -106,10 +106,6 @@ namespace Data.Sql.Services
         private void SetIsActiveState(string gameExternalId, bool isActive)
         {
             var game = GetGame(gameExternalId);
-            if (game == null)
-            {
-                throw new ArgumentNullException($"No game with {gameExternalId} found");
-            }
 
             if (game.IsActive == isActive)
             {
