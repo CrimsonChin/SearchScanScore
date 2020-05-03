@@ -52,27 +52,6 @@ class Player extends React.Component {
     componentDidMount = () => {
       this.get();
 
-      const hubConnection = new HubConnectionBuilder()
-      .withUrl("https://localhost:44394/chatHub")
-      .configureLogging(LogLevel.Trace)
-      .build()
-  
-    
-      this.setState({ hubConnection }, () => {
-        this.state.hubConnection
-          .start()
-          .then(() => console.log('Connection started!'))
-          .catch(err => console.log('Error while establishing connection :('))
-          
-          this.state.hubConnection.on('AdminMessage', (message) => {
-            const text = `ADMIN MESSAGE: ${message}`;
-            
-            this.setState({ 
-              message: text
-             });
-          });
-      })
-
       const teamHubConnection = new HubConnectionBuilder()
       .withUrl("https://localhost:44394/teamHub")
       .configureLogging(LogLevel.Trace)
@@ -99,6 +78,14 @@ class Player extends React.Component {
           this.state.teamHubConnection.on('ItemFound', (itemId) => {
             console.log(`${this.props.teamId} FOUND ${itemId}`)
             this.get()
+          });
+
+          this.state.teamHubConnection.on('AdminMessage', (message) => {
+            const text = `ADMIN MESSAGE: ${message}`;
+            
+            this.setState({ 
+              message: text
+             });
           });
       });
 

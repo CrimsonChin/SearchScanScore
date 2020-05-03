@@ -10,7 +10,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using SearchScanScore.Services.Interfaces;
-using SearchScanScore.Services.Models;
 
 namespace Microservice
 {
@@ -89,7 +88,6 @@ namespace Microservice
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<AdminHub>("/chatHub");
                 endpoints.MapHub<TeamHub>("/teamHub");
             });
         }

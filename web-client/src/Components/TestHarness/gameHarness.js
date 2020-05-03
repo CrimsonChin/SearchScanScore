@@ -16,7 +16,7 @@ class GameHarness extends React.Component {
 
     componentDidMount = () => {
       const hubConnection = new HubConnectionBuilder()
-      .withUrl("https://localhost:44394/chatHub")
+      .withUrl("https://localhost:44394/teamHub")
       .configureLogging(LogLevel.Trace)
       .build()
   
@@ -30,7 +30,7 @@ class GameHarness extends React.Component {
     }
 
     sendMessage = (e) => {
-      this.state.hubConnection.invoke("SendMessage", this.state.message)
+      this.state.hubConnection.invoke("MessageAllTeamsInGame", this.props.gameId, this.state.message)
       .catch(function (err) {
           return console.error(err.toString())
       });
