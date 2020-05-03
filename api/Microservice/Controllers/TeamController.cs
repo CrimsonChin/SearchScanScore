@@ -24,13 +24,21 @@ namespace Microservice.Controllers
         [HttpGet("CanJoinTeam/{gameExternalId}/{teamExternalId}")]
         public ActionResult<bool> CanJoinTeam(string gameExternalId, string teamExternalId)
         {
+            // TODO sometimes this logic is in the service, sometimes the controller.
             var game = _gameService.Get(gameExternalId);
             if (game == null)
             {
-                return NotFound($"No Game with external id {gameExternalId} found");
+                return NotFound(new {Message = $"No Game with external id {gameExternalId} found"});
             }
 
-            return game.IsActive && game.Teams.Select(x => x.ExternalId).Contains(teamExternalId);
+            var team = game.Teams.FirstOrDefault(x => x.ExternalId == teamExternalId);
+            if (team == null)
+            {
+                return NotFound(new { Message = $"No team with external id {gameExternalId} found for game {gameExternalId}" });
+            }
+
+            // This is not a very helpful response
+            return game.IsActive;
         }
 
         [HttpPost("CollectItem/{gameExternalId}/{teamExternalId}/{collectableItemExternalId}")]
@@ -49,13 +57,13 @@ namespace Microservice.Controllers
             var game = _gameService.Get(gameExternalId);
             if (game == null)
             {
-                return NotFound($"No Game with external id {gameExternalId} found");
+                return NotFound(new {Message = $"No Game with external id {gameExternalId} found"});
             }
 
             var team = game.Teams.FirstOrDefault(x => x.ExternalId == teamExternalId);
             if (team == null)
             {
-                return NotFound($"No team with external id {teamExternalId} found");
+                return NotFound(new {Message = $"No team with external id {teamExternalId} found for game {gameExternalId}" });
             }
 
             var collectedItems = _teamService.GetCollectedItems(gameExternalId, teamExternalId);
