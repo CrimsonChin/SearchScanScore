@@ -1,6 +1,6 @@
-﻿namespace CodeHunt.Domain.Models
+﻿namespace CodeHunt.Domain.Responses
 {
-    public class Team
+    public class TeamResponse
     {
         public string ExternalId { get; set; }
 

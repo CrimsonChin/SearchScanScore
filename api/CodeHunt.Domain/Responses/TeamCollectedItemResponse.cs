@@ -1,10 +1,9 @@
 ﻿using System;
 
-namespace CodeHunt.Domain.Models
+namespace CodeHunt.Domain.Responses
 {
-    public class CollectedItem
+    public class TeamCollectedItemResponse
     {
-        public string CollectableItemExternalId { get; set; }
         public string CollectableItemName { get; set; }
         public DateTime CollectedAt { get; set; }
     }

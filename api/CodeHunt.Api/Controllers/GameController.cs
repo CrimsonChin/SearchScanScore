@@ -39,7 +39,7 @@ namespace CodeHunt.Api.Controllers
             var game = _gameService.Get(gameExternalId);
             if (game == null)
             {
-                return NotFound($"No Game with external id {gameExternalId} found");
+                return NotFound($"No GameResponse with external id {gameExternalId} found");
             }
 
             return Ok(game);

@@ -8,10 +8,10 @@ namespace CodeHunt.Api.Hubs
     {
         public async Task Join(string gameExternalId, string teamExternalId)
         {
-            // Add them to a "Game" group.  So the admin can message all teams
+            // Add them to a "GameResponse" group.  So the admin can message all teams
             await Groups.AddToGroupAsync(Context.ConnectionId, gameExternalId);
 
-            // Add them to a "Team" group so messages can be aimed at a specific team.
+            // Add them to a "TeamResponse" group so messages can be aimed at a specific team.
             var key = NotificationKeyFactory.GetTeamKey(gameExternalId, teamExternalId);
             await Groups.AddToGroupAsync(Context.ConnectionId, key);
         }

@@ -31,7 +31,7 @@ namespace CodeHunt.Api
             // TODO Domain
             services.AddScoped<IGameService, GameService>();
             services.AddScoped<ITeamService, TeamService>();
-            services.AddScoped<IGuardService, GuardService>();
+            services.AddScoped<ISightingService, SightingService>();
             services.AddScoped<ITeamNotificationService, TeamNotificationService>();
 
             // TODO Infrastructure

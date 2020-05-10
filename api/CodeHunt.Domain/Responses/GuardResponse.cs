@@ -1,6 +1,6 @@
-﻿namespace CodeHunt.Domain.Models
+﻿namespace CodeHunt.Domain.Responses
 {
-    public class Guard
+    public class GuardResponse
     {
         public string ExternalId { get; set; }
 

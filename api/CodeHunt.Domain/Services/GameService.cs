@@ -1,45 +1,27 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
-using CodeHunt.Domain.Models;
+using CodeHunt.Domain.Mappers;
 using CodeHunt.Domain.Repositories;
+using CodeHunt.Domain.Responses;
 
 namespace CodeHunt.Domain.Services
 {
     public class GameService : IGameService
     {
         private readonly IGameRepository _gameRepository;
+        private readonly IGameMapper _gameMapper;
 
-        public GameService(IGameRepository gameRepository)
+        public GameService(IGameRepository gameRepository, IGameMapper gameMapper)
         {
             _gameRepository = gameRepository;
+            _gameMapper = gameMapper;
         }
 
-        public Game Get(string gameExternalId)
+        public GameResponse Get(string gameExternalId)
         {
             var game = _gameRepository.Get(gameExternalId);
 
-            return new Game
-            {
-                ExternalId = gameExternalId,
-                Name = game.Name,
-                IsActive = game.IsActive,
-                Teams = game.Teams.Select(x => new Team
-                {
-                    ExternalId = x.ExternalId,
-                    Name = x.Name
-                }),
-                Guards = game.Guards.Select(x => new Guard
-                {
-                    ExternalId = x.ExternalId,
-                    Name = x.Name
-                }),
-                CollectableItems = game.CollectableItems.Select(x => new CollectableItem
-                {
-                    ExternalId = x.ExternalId,
-                    Name = x.Name
-                })
-            };
+            return _gameMapper.Map(game);
         }
 
         public async Task StartGame(string gameExternalId)
@@ -70,8 +52,8 @@ namespace CodeHunt.Domain.Services
             if (game.IsActive == isActive)
             {
                 var message = isActive
-                    ? "Game is already started"
-                    : "Game is already stopped";
+                    ? "GameResponse is already started"
+                    : "GameResponse is already stopped";
 
                 throw new InvalidOperationException(message);
             }

@@ -1,6 +1,6 @@
-﻿namespace CodeHunt.Domain.Models
+﻿namespace CodeHunt.Domain.Responses
 {
-    public class CollectableItem
+    public class CollectableItemResponse
     {
         public string ExternalId { get; set; }
 

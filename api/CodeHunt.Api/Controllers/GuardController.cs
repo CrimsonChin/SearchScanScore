@@ -9,12 +9,12 @@ namespace CodeHunt.Api.Controllers
     [ApiController]
     public class GuardController : ControllerBase
     {
-        private readonly IGuardService _guardService;
+        private readonly ISightingService _sightingService;
         private readonly ITeamNotificationService _teamNotificationService;
 
-        public GuardController(IGuardService guardService, ITeamNotificationService teamNotificationService)
+        public GuardController(ISightingService sightingService, ITeamNotificationService teamNotificationService)
         {
-            _guardService = guardService;
+            _sightingService = sightingService;
             _teamNotificationService = teamNotificationService;
         }
 
@@ -23,7 +23,7 @@ namespace CodeHunt.Api.Controllers
         [HttpPost("AddSighting/{gameExternalId}/{guardExternalId}/{teamExternalId}")]
         public async Task<ActionResult<bool>> AddSighting(string gameExternalId, string guardExternalId, string teamExternalId)
         {
-            await _guardService.AddSighting(gameExternalId, guardExternalId, teamExternalId);
+            await _sightingService.AddSighting(gameExternalId, guardExternalId, teamExternalId);
             await _teamNotificationService.SendSightedNotification(gameExternalId, teamExternalId, guardExternalId);
 
             return Ok(true);

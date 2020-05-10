@@ -19,7 +19,7 @@ namespace CodeHunt.Infrastructure.Data
             {
                 GameId = 1,
                 ExternalId = "UVWMN",
-                Name = "Example Game"
+                Name = "Example GameResponse"
             });
 
             context.SaveChanges();

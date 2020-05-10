@@ -1,20 +1,25 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CodeHunt.Domain.Entities;
+using CodeHunt.Domain.Mappers;
 using CodeHunt.Domain.Repositories;
+using CodeHunt.Domain.Responses;
 
 namespace CodeHunt.Domain.Services
 {
-    public class GuardService : IGuardService
+    public class SightingService : ISightingService
     {
         private readonly IGameRepository _gameRepository;
         private readonly ISightingRepository _sightingRepository;
+        private readonly ITeamSightingMapper _teamSightingMapper;
 
-        public GuardService(IGameRepository gameRepository, ISightingRepository sightingRepository)
+        public SightingService(IGameRepository gameRepository, ISightingRepository sightingRepository, ITeamSightingMapper teamSightingMapper)
         {
             _gameRepository = gameRepository;
             _sightingRepository = sightingRepository;
+            _teamSightingMapper = teamSightingMapper;
         }
         
         public async Task AddSighting(string gameExternalId, string guardExternalId, string teamExternalId)
@@ -45,6 +50,13 @@ namespace CodeHunt.Domain.Services
             _sightingRepository.Add(new Sighting { Team = team, Guard = guard, SightedAt = DateTime.UtcNow });
 
             await _sightingRepository.UnitOfWork.SaveChangesAsync();
+        }
+
+        private IEnumerable<TeamSightingResponse> GetSightings(string gameExternalId, string teamExternalId)
+        {
+            var sightings = _sightingRepository.Get(gameExternalId, teamExternalId);
+
+            return _teamSightingMapper.Map(sightings);
         }
     }
 }

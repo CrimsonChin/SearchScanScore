@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using CodeHunt.Domain.Models;
+using CodeHunt.Domain.Responses;
 
 namespace CodeHunt.Domain.Services
 {
@@ -7,8 +7,6 @@ namespace CodeHunt.Domain.Services
     {
         bool CanJoinTeam(string gameExternalId, string teamExternalId);
 
-        Task AddCollectedItem(string gameExternalId, string teamExternalId, string itemExternalId);
-        
-        Task<TeamStats> GetTeamStats(string gameExternalId, string teamExternalId);
+        Task<TeamGameResponse> GetTeamGame(string gameExternalId, string teamExternalId);
     }
 }

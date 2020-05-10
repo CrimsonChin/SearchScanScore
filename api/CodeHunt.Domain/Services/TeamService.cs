@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CodeHunt.Domain.Models;
+using CodeHunt.Domain.Mappers;
 using CodeHunt.Domain.Repositories;
+using CodeHunt.Domain.Responses;
 
 namespace CodeHunt.Domain.Services
 {
@@ -11,16 +11,22 @@ namespace CodeHunt.Domain.Services
     {
         private readonly IGameRepository _gameRepository;
         private readonly ITeamRepository _teamRepository;
-        private readonly ICollectedItemRepository _collectedItemRepository;
-        private readonly ISightingRepository _sightingRepository;
+        private readonly ITeamSightingMapper _teamSightingMapper;
+        private readonly ITeamCollectedItemMapper _teamCollectedItemMapper;
+        private readonly ITeamCollectableItemMapper _teamCollectableItemMapper;
 
-        public TeamService(IGameRepository gameRepository, ITeamRepository teamRepository, ICollectedItemRepository collectedItemRepository,
-            ISightingRepository sightingRepository)
+        public TeamService(
+            IGameRepository gameRepository, 
+            ITeamRepository teamRepository, 
+            ITeamSightingMapper teamSightingMapper,
+            ITeamCollectedItemMapper teamCollectedItemMapper,
+            ITeamCollectableItemMapper teamCollectableItemMapper)
         {
             _gameRepository = gameRepository;
             _teamRepository = teamRepository;
-            _collectedItemRepository = collectedItemRepository;
-            _sightingRepository = sightingRepository;
+            _teamSightingMapper = teamSightingMapper;
+            _teamCollectedItemMapper = teamCollectedItemMapper;
+            _teamCollectableItemMapper = teamCollectableItemMapper;
         }
 
         public bool CanJoinTeam(string gameExternalId, string teamExternalId)
@@ -31,49 +37,7 @@ namespace CodeHunt.Domain.Services
             return team != null;
         }
 
-        public async Task AddCollectedItem(string gameExternalId, string teamExternalId, string itemExternalId)
-        {
-            var game = _gameRepository.Get(gameExternalId);
-            if (game == null)
-            {
-                throw new InvalidOperationException($"No game found with external Id: {gameExternalId}");
-            }
-
-            if (game.IsActive == false)
-            {
-                throw new InvalidOperationException($"No active game found with external Id: {gameExternalId}");
-            }
-
-            var team = game.Teams.SingleOrDefault(x => x.ExternalId == teamExternalId);
-            if (team == null)
-            {
-                throw new InvalidOperationException($"No team found with external Id: {teamExternalId}");
-            }
-
-            var item = game.CollectableItems.SingleOrDefault(x => x.ExternalId == itemExternalId);
-            if (item == null)
-            {
-                throw new InvalidOperationException($"No item found with external Id: {itemExternalId}");
-            }
-
-            // Another db call?
-            var collectedItems = _collectedItemRepository.GetCollectedItems(gameExternalId, teamExternalId);
-            if (collectedItems.Any(x => x.CollectableItem.ExternalId == itemExternalId))
-            {
-                throw new InvalidOperationException($"Item {itemExternalId} already collected");
-            }
-
-            _collectedItemRepository.Add(new Entities.CollectedItem
-            {
-                Team = team,
-                CollectableItem = item,
-                CollectedAt = DateTime.UtcNow
-            });
-
-            await _collectedItemRepository.UnitOfWork.SaveChangesAsync();
-        }
-
-        public async Task<TeamStats> GetTeamStats(string gameExternalId, string teamExternalId)
+        public async Task<TeamGameResponse> GetTeamGame(string gameExternalId, string teamExternalId)
         {
             var game = _gameRepository.Get(gameExternalId);
             if (game == null)
@@ -93,56 +57,21 @@ namespace CodeHunt.Domain.Services
             }
 
             team = await _teamRepository.Get(team.TeamId);
+            var remainingItems = game.CollectableItems.Where(x =>
+                !team.CollectedItems.Select(y => y.CollectableItem.CollectableItemId)
+                    .Contains(x.CollectableItemId));
 
-            var teamView = new TeamStats
+            var response = new TeamGameResponse
             {
-                ExternalId = teamExternalId,
+                ExternalId = team.ExternalId,
                 Name = team.Name,
-                Sightings = team.Sightings.Select(entity => new Sighting
-                {
-                    SightedAt = entity.SightedAt,
-                    SightedBy = entity.Guard.Name
-                }).ToList(),
-                TotalItemsCollected = team.CollectedItems.Count,
-                ItemsCollected = team.CollectedItems.Select(entity => new CollectedItem
-                {
-                    CollectableItemExternalId = entity.CollectableItem.ExternalId,
-                    CollectableItemName = entity.CollectableItem.Name,
-                    CollectedAt = entity.CollectedAt
-                }).ToList(),
-                RemainingItems = game.CollectableItems.Where(x =>
-                        !team.CollectedItems.Select(y => y.CollectableItem.CollectableItemId)
-                            .Contains(x.CollectableItemId))
-                    .Select(t => new CollectableItem
-                    {
-                        Name = t.Name
-                    }).ToList()
+                Sightings = _teamSightingMapper.Map(team.Sightings),
+                ItemsCollected = _teamCollectedItemMapper.Map(team.CollectedItems),
+                // TODO does this fit on the team game?  Its part of the game 
+                RemainingItems = _teamCollectableItemMapper.Map(remainingItems)
             };
 
-            return teamView;
-        }
-
-        private IList<CollectedItem> GetCollectedItems(string gameExternalId, string teamExternalId)
-        {
-            var collectedItems = _collectedItemRepository.GetCollectedItems(gameExternalId, teamExternalId);
-
-            return collectedItems?.Select(entity => new CollectedItem
-            {
-                CollectableItemExternalId = entity.CollectableItem.ExternalId,
-                CollectableItemName = entity.CollectableItem.Name,
-                CollectedAt = entity.CollectedAt
-            }).ToList();
-        }
-
-        private IEnumerable<Sighting> GetSightings(string gameExternalId, string teamExternalId)
-        {
-            var sightings = _sightingRepository.Get(gameExternalId, teamExternalId);
-
-            return sightings?.Select(entity => new Sighting
-            {
-                SightedAt = entity.SightedAt,
-                SightedBy = entity.Guard.Name
-            }).ToList() ?? Enumerable.Empty<Sighting>();
+            return response;
         }
     }
 }

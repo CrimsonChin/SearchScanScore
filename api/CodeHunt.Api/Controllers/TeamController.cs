@@ -11,36 +11,39 @@ namespace CodeHunt.Api.Controllers
     {
         private readonly ITeamService _teamService;
         private readonly ITeamNotificationService _teamNotificationService;
+        private readonly ICollectedItemService _collectedItemService;
 
-        public TeamController(ITeamService teamService, ITeamNotificationService teamNotificationService)
+        public TeamController(ITeamService teamService, ITeamNotificationService teamNotificationService, ICollectedItemService collectedItemService)
         {
             _teamService = teamService;
             _teamNotificationService = teamNotificationService;
+            _collectedItemService = collectedItemService;
         }
 
         [HttpGet("CanJoin/{gameExternalId}/{teamExternalId}")]
-        public ActionResult CanJoinTeam(string gameExternalId, string teamExternalId)
+        public IActionResult CanJoinTeam(string gameExternalId, string teamExternalId)
         {
             var canJoinTeam = _teamService.CanJoinTeam(gameExternalId, teamExternalId);
 
             return Ok(canJoinTeam);
         }
 
+        // TODO move to collectedItem Service?
         [HttpPost("AddCollectedItem/{gameExternalId}/{teamExternalId}/{collectableItemExternalId}")]
-        public async Task<ActionResult> CollectItem(string gameExternalId, string teamExternalId, string collectableItemExternalId)
+        public async Task<IActionResult> CollectItem(string gameExternalId, string teamExternalId, string collectableItemExternalId)
         {
-            await _teamService.AddCollectedItem(gameExternalId, teamExternalId, collectableItemExternalId);
+            await _collectedItemService.AddCollectedItem(gameExternalId, teamExternalId, collectableItemExternalId);
             await _teamNotificationService.SendItemFoundNotification(gameExternalId, teamExternalId, collectableItemExternalId);
 
             return Ok(true);
         }
 
         [HttpGet("Get/{gameExternalId}/{teamExternalId}")]
-        public async Task<ActionResult> Get(string gameExternalId, string teamExternalId)
+        public async Task<IActionResult> Get(string gameExternalId, string teamExternalId)
         {
-            var teamStats = await _teamService.GetTeamStats(gameExternalId, teamExternalId);
+            var response = await _teamService.GetTeamGame(gameExternalId, teamExternalId);
 
-            return Ok(teamStats);
+            return Ok(response);
         }
     }
 }

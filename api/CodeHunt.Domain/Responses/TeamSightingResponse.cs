@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace CodeHunt.Domain.Models
+namespace CodeHunt.Domain.Responses
 {
-    public class Sighting
+    public class TeamSightingResponse
     {
         public DateTime SightedAt { get; set; }
 
