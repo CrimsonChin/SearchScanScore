@@ -7,7 +7,7 @@ class GuardService {
     }
     
     recordSighting(gameId, guardId, teamId){
-         return this.api.post(`Guard/RecordSighting/${gameId}/${guardId}/${teamId}`)
+         return this.api.post(`Guard/AddSighting/${gameId}/${guardId}/${teamId}`)
         .then(res => res.data)
     }
 };

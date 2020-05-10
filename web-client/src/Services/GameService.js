@@ -7,17 +7,12 @@ class GameService {
     }
     
     startGame(gameId){
-        return this.api.post(`Game/StartGame/${gameId}`)
+        return this.api.post(`Game/Start/${gameId}`)
         .then(res => res.data)
     }
 
     stopGame(gameId){
-        return this.api.post(`Game/StopGame/${gameId}`)
-        .then(res => res.data)
-    }
-
-    resetCollectedItems(gameId){
-        return this.api.post(`Game/ResetCollectedItems/${gameId}`)
+        return this.api.post(`Game/Stop/${gameId}`)
         .then(res => res.data)
     }
 

@@ -1,2 +1,2 @@
-# Search Scan Score - Web Client
+# CodeHunt - Web Client
 React frontend

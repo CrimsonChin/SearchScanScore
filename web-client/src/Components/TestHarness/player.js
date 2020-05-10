@@ -37,14 +37,14 @@ class Player extends React.Component {
       TeamService.get(this.props.gameId, this.props.teamId).then((data) => {
         console.log(data)
         data = data || {
-          ItemsCollected: [],
-          Sightings: [],
-          RemainingItems: []
+          itemsCollected: [],
+          sightings: [],
+          remainingItems: []
         }
         this.setState({
-          collectedItems: data.ItemsCollected,
-          remainingItems: data.RemainingItems,
-          sightings: data.Sightings
+          collectedItems: data.itemsCollected,
+          remainingItems: data.remainingItems,
+          sightings: data.sightings
         })
       })
     }
@@ -110,7 +110,7 @@ class Player extends React.Component {
                 Remaining Items {this.state.remainingItems.length}
                 <ol>
                   {this.state.remainingItems.map((item, i) => 
-                    <li key={i}>{item.Name}</li>
+                    <li key={i}>{item.name}</li>
                   ) }
                 </ol>
               </div>
@@ -118,7 +118,7 @@ class Player extends React.Component {
                 <div>Team Sighted By Guards: {this.state.sightings.length}
                   <ol>
                     {this.state.sightings.map((item, i) => 
-                      <li key={i}>{item.SightedAt} - {item.SightedBy}</li>
+                      <li key={i}>{item.sightedAt} - {item.sightedBy}</li>
                       ) }
                   </ol>
                 </div>
@@ -127,7 +127,7 @@ class Player extends React.Component {
                 <div>Team Collected Items {this.state.collectedItems.length}
                   <ol>
                     {this.state.collectedItems.map((item, i) => 
-                      <li key={i}>{item.CollectedAt} - {item.Name}</li>
+                      <li key={i}>{item.collectedAt} - {item.collectableItemName}</li>
                     ) }
                   </ol>
                 </div>

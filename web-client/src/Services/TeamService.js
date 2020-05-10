@@ -7,12 +7,12 @@ class TeamService {
     }
     
     canJoinTeam(gameId, teamId){
-        return this.api.get(`Team/CanJoinTeam/${gameId}/${teamId}`)
+        return this.api.get(`Team/CanJoin/${gameId}/${teamId}`)
         .then(res => res.data)
     }
 
     collectItem(gameId, teamId, collectableItemId){
-         return this.api.post(`Team/CollectItem/${gameId}/${teamId}/${collectableItemId}`)
+         return this.api.post(`Team/AddCollectedItem/${gameId}/${teamId}/${collectableItemId}`)
         .then(res => res.data)
     }
 

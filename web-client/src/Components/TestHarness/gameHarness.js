@@ -70,8 +70,8 @@ class GameHarness extends React.Component {
        GameService.get(this.props.gameId).then((data) => {
         console.log("Game data loaded:", data)
          this.setState({
-           isActive: data.IsActive,
-           collectableItems: data.CollectableItems
+           isActive: data.isActive,
+           collectableItems: data.collectableItems
         })
        })
     }
@@ -90,7 +90,7 @@ class GameHarness extends React.Component {
               <div>Collectable Items {this.state.collectableItems.length}
                 <ol>
                   {this.state.collectableItems.map((item, i) => 
-                    <li key={i}>{item.ExternalId} - {item.Name}</li>
+                    <li key={i}>{item.externalId} - {item.name}</li>
                   ) }
                 </ol>
               </div>

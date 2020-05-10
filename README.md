@@ -1,2 +1,2 @@
-# SearchScanScore
+# CodeHunt
 A hide and seek game!
