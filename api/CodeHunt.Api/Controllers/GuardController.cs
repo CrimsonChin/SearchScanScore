@@ -20,6 +20,7 @@ namespace CodeHunt.Api.Controllers
 
         // TODO CanJoin
 
+        // TODO move to Sighting Controller
         [HttpPost("AddSighting/{gameExternalId}/{guardExternalId}/{teamExternalId}")]
         public async Task<ActionResult<bool>> AddSighting(string gameExternalId, string guardExternalId, string teamExternalId)
         {

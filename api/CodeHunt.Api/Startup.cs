@@ -1,15 +1,14 @@
 ﻿using CodeHunt.Api.Hubs;
 using CodeHunt.Api.NotificationServices;
-using CodeHunt.Domain.Repositories;
-using CodeHunt.Domain.Services;
+using CodeHunt.Domain.Extensions;
 using CodeHunt.Infrastructure.Data;
-using CodeHunt.Infrastructure.Repositories;
+using CodeHunt.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 
 namespace CodeHunt.Api
@@ -23,28 +22,21 @@ namespace CodeHunt.Api
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
 
-            // TODO Domain
-            services.AddScoped<IGameService, GameService>();
-            services.AddScoped<ITeamService, TeamService>();
-            services.AddScoped<ISightingService, SightingService>();
-            services.AddScoped<ITeamNotificationService, TeamNotificationService>();
+            services.AddSingleton<ITeamNotificationService, TeamNotificationService>();
 
-            // TODO Infrastructure
-            services.AddScoped<IGameRepository, GameRepository>();
-            services.AddScoped<ITeamRepository, TeamRepository>();
-            services.AddScoped<ICollectedItemRepository, CollectedItemRepository>();
-            services.AddScoped<ISightingRepository, SightingRepository>();
+            services
+                .AddRepositories()
+                .AddMappers()
+                .AddServices();
 
             // TODO bootstrap
-            services.AddMemoryCache();
+            // services.AddMemoryCache();
             services.AddDbContext<CodeHuntContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            //services.AddMemoryCache();
 
             services.AddCors(options => options.AddPolicy("CorsPolicy",
                 builder =>
@@ -57,7 +49,6 @@ namespace CodeHunt.Api
 
             services.AddSignalR();
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             services.AddSwaggerGen(c =>
@@ -66,8 +57,7 @@ namespace CodeHunt.Api
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostEnvironment env)
         {
             if (env.IsDevelopment())
             {

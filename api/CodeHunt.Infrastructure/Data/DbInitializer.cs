@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using CodeHunt.Domain.Entities;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace CodeHunt.Infrastructure.Data
 {

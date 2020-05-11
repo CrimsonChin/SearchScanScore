@@ -22,7 +22,7 @@ namespace CodeHunt.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Game>()
-                .ToTable("GameResponse");
+                .ToTable("Game");
 
             modelBuilder.Entity<Sighting>()
                 .ToTable("Sighting")
@@ -31,7 +31,7 @@ namespace CodeHunt.Infrastructure.Data
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Team>()
-                .ToTable("TeamResponse")
+                .ToTable("Team")
                 .HasMany(x => x.CollectedItems)
                 .WithOne(x => x.Team);
 
@@ -40,10 +40,10 @@ namespace CodeHunt.Infrastructure.Data
                 .WithOne(x => x.Team);
 
             modelBuilder.Entity<Guard>()
-                .ToTable("GuardResponse");
+                .ToTable("Guard");
 
             modelBuilder.Entity<CollectableItem>()
-                .ToTable("CollectableItemResponse");
+                .ToTable("CollectableItem");
 
             modelBuilder.Entity<CollectedItem>()
                 .ToTable("CollectedItem");
