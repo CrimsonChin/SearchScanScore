@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using CodeHunt.Domain.Entities;
 using CodeHunt.Domain.Repositories;
 using CodeHunt.Infrastructure.Data;
@@ -18,13 +19,13 @@ namespace CodeHunt.Infrastructure.Repositories
 
         public IUnitOfWork UnitOfWork => _context;
 
-        public Game Get(string gameExternalId)
+        public async Task<Game> GetAsync(string gameExternalId)
         {
-            var game = _context.Games
+            var game = await _context.Games
                 .Include(x => x.Teams)
                 .Include(x => x.Guards)
                 .Include(x => x.CollectableItems)
-                .SingleOrDefault(x => x.ExternalId == gameExternalId);
+                .SingleOrDefaultAsync(x => x.ExternalId == gameExternalId);
 
             return game;
         }

@@ -5,8 +5,8 @@ namespace CodeHunt.Domain.Services
 {
     public interface ITeamService
     {
-        bool CanJoinTeam(string gameExternalId, string teamExternalId);
+        Task<bool> CanJoinTeamAsync(string gameExternalId, string teamExternalId);
 
-        Task<TeamGameResponse> GetTeamGame(string gameExternalId, string teamExternalId);
+        Task<TeamGameResponse> GetTeamGameAsync(string gameExternalId, string teamExternalId);
     }
 }

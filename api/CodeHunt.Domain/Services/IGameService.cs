@@ -5,9 +5,9 @@ namespace CodeHunt.Domain.Services
 {
     public interface IGameService
     {
-        GameResponse Get(string gameExternalId);
-        Task StartGame(string gameExternalId);
-        Task StopGame(string gameExternalId);
-        Task Reset(string gameExternalId);
+        Task<GameResponse> GetAsync(string gameExternalId);
+        Task StartGameAsync(string gameExternalId);
+        Task StopGameAsync(string gameExternalId);
+        Task ResetAsync(string gameExternalId);
     }
 }

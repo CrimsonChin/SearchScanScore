@@ -29,17 +29,17 @@ namespace CodeHunt.Domain.Services
             _teamCollectableItemMapper = teamCollectableItemMapper;
         }
 
-        public bool CanJoinTeam(string gameExternalId, string teamExternalId)
+        public async Task<bool> CanJoinTeamAsync(string gameExternalId, string teamExternalId)
         {
-            var game = _gameRepository.Get(gameExternalId);
+            var game = await _gameRepository.GetAsync(gameExternalId);
 
             var team = game?.Teams.FirstOrDefault(x => x.ExternalId == teamExternalId);
             return team != null;
         }
 
-        public async Task<TeamGameResponse> GetTeamGame(string gameExternalId, string teamExternalId)
+        public async Task<TeamGameResponse> GetTeamGameAsync(string gameExternalId, string teamExternalId)
         {
-            var game = _gameRepository.Get(gameExternalId);
+            var game = await _gameRepository.GetAsync(gameExternalId);
             if (game == null)
             {
                 throw new InvalidOperationException($"No game found with external Id: {gameExternalId}");

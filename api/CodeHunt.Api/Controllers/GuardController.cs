@@ -24,8 +24,8 @@ namespace CodeHunt.Api.Controllers
         [HttpPost("AddSighting/{gameExternalId}/{guardExternalId}/{teamExternalId}")]
         public async Task<ActionResult<bool>> AddSighting(string gameExternalId, string guardExternalId, string teamExternalId)
         {
-            await _sightingService.AddSighting(gameExternalId, guardExternalId, teamExternalId);
-            await _teamNotificationService.SendSightedNotification(gameExternalId, teamExternalId, guardExternalId);
+            await _sightingService.AddSightingAsync(gameExternalId, guardExternalId, teamExternalId);
+            await _teamNotificationService.SendSightedNotificationAsync(gameExternalId, teamExternalId, guardExternalId);
 
             return Ok(true);
         }

@@ -22,9 +22,9 @@ namespace CodeHunt.Domain.Services
             _teamSightingMapper = teamSightingMapper;
         }
         
-        public async Task AddSighting(string gameExternalId, string guardExternalId, string teamExternalId)
+        public async Task AddSightingAsync(string gameExternalId, string guardExternalId, string teamExternalId)
         {
-            var game = _gameRepository.Get(gameExternalId);
+            var game = await _gameRepository.GetAsync(gameExternalId);
             if (game == null)
             {
                 throw new InvalidOperationException($"No game found with external Id: {gameExternalId}");
@@ -52,9 +52,9 @@ namespace CodeHunt.Domain.Services
             await _sightingRepository.UnitOfWork.SaveChangesAsync();
         }
 
-        private IEnumerable<TeamSightingResponse> GetSightings(string gameExternalId, string teamExternalId)
+        private async Task<IEnumerable<TeamSightingResponse>> GetSightingsAsync(string gameExternalId, string teamExternalId)
         {
-            var sightings = _sightingRepository.Get(gameExternalId, teamExternalId);
+            var sightings = await _sightingRepository.GetAsync(gameExternalId, teamExternalId);
 
             return _teamSightingMapper.Map(sightings);
         }

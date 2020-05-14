@@ -18,25 +18,25 @@ namespace CodeHunt.Api.Controllers
         [HttpPost("Start/{gameExternalId}")]
         public async Task Start(string gameExternalId)
         {
-            await _gameService.StartGame(gameExternalId);
+            await _gameService.StartGameAsync(gameExternalId);
         }
 
         [HttpPost("Stop/{gameExternalId}")]
         public async Task Stop(string gameExternalId)
         {
-            await _gameService.StopGame(gameExternalId);
+            await _gameService.StopGameAsync(gameExternalId);
         }
 
         [HttpPost("Reset/{gameExternalId}")]
         public async Task Reset(string gameExternalId)
         {
-            await _gameService.Reset(gameExternalId);
+            await _gameService.ResetAsync(gameExternalId);
         }
 
-        [HttpGet("Get/{gameExternalId}")]
-        public ActionResult Get(string gameExternalId)
+        [HttpGet("GetAsync/{gameExternalId}")]
+        public async Task<ActionResult> Get(string gameExternalId)
         {
-            var game = _gameService.Get(gameExternalId);
+            var game = await _gameService.GetAsync(gameExternalId);
             if (game == null)
             {
                 return NotFound($"No GameResponse with external id {gameExternalId} found");

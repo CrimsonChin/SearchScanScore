@@ -17,43 +17,42 @@ namespace CodeHunt.Domain.Services
             _gameMapper = gameMapper;
         }
 
-        public GameResponse Get(string gameExternalId)
+        public async Task<GameResponse> GetAsync(string gameExternalId)
         {
-            var game = _gameRepository.Get(gameExternalId);
+            var game = await _gameRepository.GetAsync(gameExternalId);
 
             return _gameMapper.Map(game);
         }
 
-        public async Task StartGame(string gameExternalId)
+        public async Task StartGameAsync(string gameExternalId)
         {
-            await SetIsActiveState(gameExternalId, true);
+            await SetIsActiveStateAsync(gameExternalId, true);
         }
 
-        public async Task StopGame(string gameExternalId)
+        public async Task StopGameAsync(string gameExternalId)
         {
-            await SetIsActiveState(gameExternalId, false);
+            await SetIsActiveStateAsync(gameExternalId, false);
         }
 
-        public async Task Reset(string gameExternalId)
+        public async Task ResetAsync(string gameExternalId)
         {
             _gameRepository.Reset(gameExternalId);
             await _gameRepository.UnitOfWork.SaveChangesAsync();
         }
 
-        private async Task SetIsActiveState(string gameExternalId, bool isActive)
+        private async Task SetIsActiveStateAsync(string gameExternalId, bool isActive)
         {
-            var game = _gameRepository.Get(gameExternalId);
-            
+            var game = await _gameRepository.GetAsync(gameExternalId);
             if (game == null)
             {
-                throw new InvalidOperationException($"No game with external Id {gameExternalId} found");
+                throw new InvalidOperationException($"No game found with external Id: {gameExternalId}");
             }
 
             if (game.IsActive == isActive)
             {
                 var message = isActive
-                    ? "GameResponse is already started"
-                    : "GameResponse is already stopped";
+                    ? "Game is already started"
+                    : "Game is already stopped";
 
                 throw new InvalidOperationException(message);
             }

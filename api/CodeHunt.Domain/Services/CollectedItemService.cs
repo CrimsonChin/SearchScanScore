@@ -24,9 +24,9 @@ namespace CodeHunt.Domain.Services
             _teamCollectedItemMapper = teamCollectedItemMapper;
         }
 
-        public async Task AddCollectedItem(string gameExternalId, string teamExternalId, string itemExternalId)
+        public async Task AddCollectedItemAsync(string gameExternalId, string teamExternalId, string itemExternalId)
         {
-            var game = _gameRepository.Get(gameExternalId);
+            var game = await _gameRepository.GetAsync(gameExternalId);
             if (game == null)
             {
                 throw new InvalidOperationException($"No game found with external Id: {gameExternalId}");
@@ -50,7 +50,7 @@ namespace CodeHunt.Domain.Services
             }
 
             // Another db call?
-            var collectedItems = _collectedItemRepository.GetCollectedItems(gameExternalId, teamExternalId);
+            var collectedItems = await _collectedItemRepository.GetCollectedItemsAsync(gameExternalId, teamExternalId);
             if (collectedItems.Any(x => x.CollectableItem.ExternalId == itemExternalId))
             {
                 throw new InvalidOperationException($"Item {itemExternalId} already collected");
@@ -66,11 +66,11 @@ namespace CodeHunt.Domain.Services
             await _collectedItemRepository.UnitOfWork.SaveChangesAsync();
         }
 
-        public IEnumerable<TeamCollectedItemResponse> GetCollectedItems(string gameExternalId, string teamExternalId)
+        public async Task<IEnumerable<TeamCollectedItemResponse>> GetCollectedItemsAsync(string gameExternalId, string teamExternalId)
         {
             // TODO validation
 
-            var collectedItems = _collectedItemRepository.GetCollectedItems(gameExternalId, teamExternalId);
+            var collectedItems = await _collectedItemRepository.GetCollectedItemsAsync(gameExternalId, teamExternalId);
 
             return _teamCollectedItemMapper.Map(collectedItems);
         }

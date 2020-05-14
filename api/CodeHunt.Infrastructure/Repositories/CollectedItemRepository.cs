@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using CodeHunt.Domain.Entities;
 using CodeHunt.Domain.Repositories;
 using CodeHunt.Infrastructure.Data;
@@ -23,14 +24,14 @@ namespace CodeHunt.Infrastructure.Repositories
             return _context.CollectedItems.Add(collectedItem).Entity;
         }
 
-        public IEnumerable<CollectedItem> GetCollectedItems(string gameExternalId, string teamExternalId)
+        public async Task<IEnumerable<CollectedItem>> GetCollectedItemsAsync(string gameExternalId, string teamExternalId)
         {
-            var team = _context.Teams
+            var team = await _context.Teams
                 .Where(x => x.ExternalId == teamExternalId
                             && x.Game.ExternalId == gameExternalId)
                 .Include(x => x.CollectedItems)
                 .ThenInclude(collectedItem => collectedItem.CollectableItem)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             return team?.CollectedItems ?? Enumerable.Empty<CollectedItem>();
         }

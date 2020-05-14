@@ -21,9 +21,9 @@ namespace CodeHunt.Api.Controllers
         }
 
         [HttpGet("CanJoin/{gameExternalId}/{teamExternalId}")]
-        public IActionResult CanJoinTeam(string gameExternalId, string teamExternalId)
+        public async Task<IActionResult> CanJoinTeam(string gameExternalId, string teamExternalId)
         {
-            var canJoinTeam = _teamService.CanJoinTeam(gameExternalId, teamExternalId);
+            var canJoinTeam = await _teamService.CanJoinTeamAsync(gameExternalId, teamExternalId);
 
             return Ok(canJoinTeam);
         }
@@ -32,8 +32,8 @@ namespace CodeHunt.Api.Controllers
         [HttpPost("AddCollectedItem/{gameExternalId}/{teamExternalId}/{collectableItemExternalId}")]
         public async Task<IActionResult> AddCollectedItem(string gameExternalId, string teamExternalId, string collectableItemExternalId)
         {
-            await _collectedItemService.AddCollectedItem(gameExternalId, teamExternalId, collectableItemExternalId);
-            await _teamNotificationService.SendItemFoundNotification(gameExternalId, teamExternalId, collectableItemExternalId);
+            await _collectedItemService.AddCollectedItemAsync(gameExternalId, teamExternalId, collectableItemExternalId);
+            await _teamNotificationService.SendItemFoundNotificationAsync(gameExternalId, teamExternalId, collectableItemExternalId);
 
             return Ok(true);
         }
@@ -41,7 +41,7 @@ namespace CodeHunt.Api.Controllers
         [HttpGet("GetAsync/{gameExternalId}/{teamExternalId}")]
         public async Task<IActionResult> Get(string gameExternalId, string teamExternalId)
         {
-            var response = await _teamService.GetTeamGame(gameExternalId, teamExternalId);
+            var response = await _teamService.GetTeamGameAsync(gameExternalId, teamExternalId);
 
             return Ok(response);
         }

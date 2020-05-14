@@ -11,13 +11,13 @@ namespace CodeHunt.Api.NotificationServices
         {
         }
 
-        async Task ITeamNotificationService.SendItemFoundNotification(string gameExternalId, string teamExternalId, string collectableItemExternalId)
+        async Task ITeamNotificationService.SendItemFoundNotificationAsync(string gameExternalId, string teamExternalId, string collectableItemExternalId)
         {
             var key = NotificationKeyFactory.GetTeamKey(gameExternalId, teamExternalId);
             await HubContext.Clients.Group(key).SendAsync("ItemFound", collectableItemExternalId);
         }
 
-        async Task ITeamNotificationService.SendSightedNotification(string gameExternalId, string teamExternalId, string guardExternalId)
+        async Task ITeamNotificationService.SendSightedNotificationAsync(string gameExternalId, string teamExternalId, string guardExternalId)
         {
             var key = NotificationKeyFactory.GetTeamKey(gameExternalId, teamExternalId);
             await HubContext.Clients.Group(key).SendAsync("Sighted", guardExternalId);

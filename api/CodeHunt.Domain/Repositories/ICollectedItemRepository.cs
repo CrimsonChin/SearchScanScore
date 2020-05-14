@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using CodeHunt.Domain.Entities;
 
 namespace CodeHunt.Domain.Repositories
@@ -7,6 +8,6 @@ namespace CodeHunt.Domain.Repositories
     {
         CollectedItem Add(CollectedItem collectedItem);
 
-        IEnumerable<CollectedItem> GetCollectedItems(string gameExternalId, string teamExternalId);
+        Task<IEnumerable<CollectedItem>> GetCollectedItemsAsync(string gameExternalId, string teamExternalId);
     }
 }

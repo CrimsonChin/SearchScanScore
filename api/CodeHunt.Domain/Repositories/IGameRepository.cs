@@ -1,10 +1,11 @@
-﻿using CodeHunt.Domain.Entities;
+﻿using System.Threading.Tasks;
+using CodeHunt.Domain.Entities;
 
 namespace CodeHunt.Domain.Repositories
 {
     public interface IGameRepository : IRepository
     {
-        Game Get(string gameExternalId);
+        Task<Game> GetAsync(string gameExternalId);
         
         Game Update(Game game);
 
