@@ -1,21 +1,33 @@
 # CodeHunt - API
 DotNetCore 3.1 Web API
 
-https://docs.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/common-web-application-architectures
-
-Clean code refactor
+## Clean code refactor
 - [x] Move DB into infrastructure
 - [x] introduce repositories and services (rename existing service to repos and pass through new services)
 - [x] Push Domain logic into services from repos
 - [x] Push Domain logic into services from controllers
 - [ ] Split controllers to have single responsibilities
-- [ ] Make use of Async throughgout and add Async to signatures
-- [ ] Add exception handing and error codes
+- [x] Make use of Async throughgout and add Async to signatures
+- [x] Add exception handling and error codes
 - [ ] Use Filters for validation
 - [ ] Use Request Objects
 - [ ] Use schema definitions
 - [ ] Get Active game from cache
 - [ ] Tests
 - [ ] Containerize 
+
+## Design
+### Architecture
+https://docs.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/common-web-application-architectures
+
+https://www.oreilly.com/content/how-a-restful-api-server-reacts-to-requests/
+
+### Handling Errors
+https://stackify.com/web-api-error-handling/
+https://docs.microsoft.com/en-us/aspnet/core/web-api/handle-errors?view=aspnetcore-3.1
+
+### Patterns
+https://deviq.com/repository-pattern/
+https://deviq.com/specification-pattern/
 
 Database: C:\Users\%username%

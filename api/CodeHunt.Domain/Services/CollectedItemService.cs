@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using CodeHunt.Domain.Exceptions;
 using CodeHunt.Domain.Mappers;
 using CodeHunt.Domain.Repositories;
 using CodeHunt.Domain.Responses;
@@ -29,31 +31,30 @@ namespace CodeHunt.Domain.Services
             var game = await _gameRepository.GetAsync(gameExternalId);
             if (game == null)
             {
-                throw new InvalidOperationException($"No game found with external Id: {gameExternalId}");
+                throw new HttpResponseException(HttpStatusCode.NotFound, $"No game found with external Id: {gameExternalId}");
             }
 
             if (game.IsActive == false)
             {
-                throw new InvalidOperationException($"No active game found with external Id: {gameExternalId}");
+                throw new HttpResponseException(HttpStatusCode.NotFound, $"No active game found with external Id: {gameExternalId}");
             }
 
             var team = game.Teams.SingleOrDefault(x => x.ExternalId == teamExternalId);
             if (team == null)
             {
-                throw new InvalidOperationException($"No team found with external Id: {teamExternalId}");
+                throw new HttpResponseException(HttpStatusCode.NotFound, $"No team found with external Id: {teamExternalId}");
             }
 
             var item = game.CollectableItems.SingleOrDefault(x => x.ExternalId == itemExternalId);
             if (item == null)
             {
-                throw new InvalidOperationException($"No item found with external Id: {itemExternalId}");
+                throw new HttpResponseException(HttpStatusCode.NotFound, $"No item found with external Id: {itemExternalId}");
             }
 
-            // Another db call?
             var collectedItems = await _collectedItemRepository.GetCollectedItemsAsync(gameExternalId, teamExternalId);
             if (collectedItems.Any(x => x.CollectableItem.ExternalId == itemExternalId))
             {
-                throw new InvalidOperationException($"Item {itemExternalId} already collected");
+                throw new HttpResponseException(HttpStatusCode.Conflict, $"Item {itemExternalId} already collected");
             }
 
             _collectedItemRepository.Add(new Entities.CollectedItem

@@ -18,6 +18,11 @@ namespace CodeHunt.Domain.Mappers
 
         public GameResponse Map(Game game)
         {
+            if (game == null)
+            {
+                return null;
+            }
+
             return new GameResponse
             {
                 ExternalId = game.ExternalId,

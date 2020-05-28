@@ -1,4 +1,5 @@
-﻿using CodeHunt.Api.Hubs;
+﻿using CodeHunt.Api.Filters;
+using CodeHunt.Api.Hubs;
 using CodeHunt.Api.NotificationServices;
 using CodeHunt.Domain.Extensions;
 using CodeHunt.Infrastructure.Data;
@@ -53,8 +54,11 @@ namespace CodeHunt.Api
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Code Hunt", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Status Hunt", Version = "v1" });
             });
+
+            services.AddControllers(options =>
+                options.Filters.Add<HttpResponseExceptionFilter>());
         }
 
         public void Configure(IApplicationBuilder app, IHostEnvironment env)
@@ -68,7 +72,7 @@ namespace CodeHunt.Api
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Code Hunt API V1");
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Status Hunt API V1");
                 });
 
             }

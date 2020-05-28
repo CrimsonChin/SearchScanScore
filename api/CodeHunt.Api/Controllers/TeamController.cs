@@ -28,7 +28,6 @@ namespace CodeHunt.Api.Controllers
             return Ok(canJoinTeam);
         }
 
-        // TODO move to collectedItem Controller
         [HttpPost("AddCollectedItem/{gameExternalId}/{teamExternalId}/{collectableItemExternalId}")]
         public async Task<IActionResult> AddCollectedItem(string gameExternalId, string teamExternalId, string collectableItemExternalId)
         {
@@ -38,7 +37,7 @@ namespace CodeHunt.Api.Controllers
             return Ok(true);
         }
 
-        [HttpGet("GetAsync/{gameExternalId}/{teamExternalId}")]
+        [HttpGet("Get/{gameExternalId}/{teamExternalId}")]
         public async Task<IActionResult> Get(string gameExternalId, string teamExternalId)
         {
             var response = await _teamService.GetTeamGameAsync(gameExternalId, teamExternalId);

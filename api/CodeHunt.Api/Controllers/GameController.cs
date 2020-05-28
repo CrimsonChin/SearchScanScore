@@ -15,13 +15,13 @@ namespace CodeHunt.Api.Controllers
             _gameService = gameService;
         }
 
-        [HttpPost("Start/{gameExternalId}")]
+        [HttpPut("Start/{gameExternalId}")]
         public async Task Start(string gameExternalId)
         {
             await _gameService.StartGameAsync(gameExternalId);
         }
 
-        [HttpPost("Stop/{gameExternalId}")]
+        [HttpPut("Stop/{gameExternalId}")]
         public async Task Stop(string gameExternalId)
         {
             await _gameService.StopGameAsync(gameExternalId);
@@ -33,7 +33,7 @@ namespace CodeHunt.Api.Controllers
             await _gameService.ResetAsync(gameExternalId);
         }
 
-        [HttpGet("GetAsync/{gameExternalId}")]
+        [HttpGet("Get/{gameExternalId}")]
         public async Task<ActionResult> Get(string gameExternalId)
         {
             var game = await _gameService.GetAsync(gameExternalId);

@@ -1,5 +1,6 @@
-﻿using System;
+﻿using System.Net;
 using System.Threading.Tasks;
+using CodeHunt.Domain.Exceptions;
 using CodeHunt.Domain.Mappers;
 using CodeHunt.Domain.Repositories;
 using CodeHunt.Domain.Responses;
@@ -45,16 +46,12 @@ namespace CodeHunt.Domain.Services
             var game = await _gameRepository.GetAsync(gameExternalId);
             if (game == null)
             {
-                throw new InvalidOperationException($"No game found with external Id: {gameExternalId}");
+                throw new HttpResponseException(HttpStatusCode.NotFound, $"No game found with external Id: {gameExternalId}");
             }
 
             if (game.IsActive == isActive)
             {
-                var message = isActive
-                    ? "Game is already started"
-                    : "Game is already stopped";
-
-                throw new InvalidOperationException(message);
+                return;
             }
 
             game.IsActive = isActive;

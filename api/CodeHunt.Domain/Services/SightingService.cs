@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using CodeHunt.Domain.Entities;
+using CodeHunt.Domain.Exceptions;
 using CodeHunt.Domain.Mappers;
 using CodeHunt.Domain.Repositories;
 using CodeHunt.Domain.Responses;
@@ -27,24 +29,24 @@ namespace CodeHunt.Domain.Services
             var game = await _gameRepository.GetAsync(gameExternalId);
             if (game == null)
             {
-                throw new InvalidOperationException($"No game found with external Id: {gameExternalId}");
+                throw new HttpResponseException(HttpStatusCode.NotFound, $"No game found with external Id: {gameExternalId}");
             }
 
             if (game.IsActive == false)
             {
-                throw new InvalidOperationException($"No active game found with external Id: {gameExternalId}");
+                throw new HttpResponseException(HttpStatusCode.NotFound, $"No active game found with external Id: {gameExternalId}");
             }
 
             var guard = game.Guards.SingleOrDefault(x => x.ExternalId == guardExternalId);
             if (guard == null)
             {
-                throw new InvalidOperationException($"No guard found with external Id: {gameExternalId}");
+                throw new HttpResponseException(HttpStatusCode.NotFound, $"No guard found with external Id: {gameExternalId}");
             }
 
             var team = game.Teams.SingleOrDefault(x => x.ExternalId == teamExternalId);
             if (team == null)
             {
-                throw new InvalidOperationException($"No team found with external Id: {teamExternalId}");
+                throw new HttpResponseException(HttpStatusCode.NotFound, $"No team found with external Id: {teamExternalId}");
             }
 
             _sightingRepository.Add(new Sighting { Team = team, Guard = guard, SightedAt = DateTime.UtcNow });
