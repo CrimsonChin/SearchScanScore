@@ -2,7 +2,7 @@
 
 namespace CodeHunt.Domain.Responses
 {
-    public class TeamSightingResponse
+    public class SightingResponse
     {
         public DateTime SightedAt { get; set; }
 

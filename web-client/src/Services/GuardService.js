@@ -6,8 +6,13 @@ class GuardService {
         this.api = API.create(ConfigurationService.FoundItService);
     }
     
-    recordSighting(gameId, guardId, teamId){
-         return this.api.post(`Guard/AddSighting/${gameId}/${guardId}/${teamId}`)
+    join(gameId, guardId){
+        return this.api.get(`Guard/Join/${gameId}/${guardId}`)
+        .then(res => res.data)
+    }
+    
+    addSighting(gameId, guardId, teamId){
+         return this.api.post(`Guard/Sighting/Add/${gameId}/${guardId}/${teamId}`)
         .then(res => res.data)
     }
 };

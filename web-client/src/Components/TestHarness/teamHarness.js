@@ -13,7 +13,7 @@ class TeamHarness extends React.Component {
 
     canJoinTeam = (event) => {
       console.log("Can Join Team?")
-      TeamService.canJoinTeam(this.props.gameId, this.props.teamId).then((data) => {
+      TeamService.joinTeam(this.props.gameId, this.props.teamId).then((data) => {
         console.log("Has joined team: " + data)
         this.setState({
           hasJoinedTeam: data,

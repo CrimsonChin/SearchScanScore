@@ -7,6 +7,6 @@ namespace CodeHunt.Domain.Services
     {
         Task<bool> CanJoinTeamAsync(string gameExternalId, string teamExternalId);
 
-        Task<TeamGameResponse> GetTeamGameAsync(string gameExternalId, string teamExternalId);
+        Task<TeamResponse> GetTeamAsync(string gameExternalId, string teamExternalId);
     }
 }

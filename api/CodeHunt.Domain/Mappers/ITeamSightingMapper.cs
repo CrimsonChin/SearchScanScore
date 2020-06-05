@@ -5,6 +5,6 @@ namespace CodeHunt.Domain.Mappers
 {
     public interface ITeamSightingMapper
     {
-        IEnumerable<TeamSightingResponse> Map(IEnumerable<Entities.Sighting> entities);
+        IEnumerable<SightingResponse> Map(IEnumerable<Entities.Sighting> entities);
     }
 }

@@ -7,17 +7,28 @@ namespace CodeHunt.Domain.Mappers
 {
     public class TeamMapper : ITeamMapper
     {
+        private readonly ITeamSightingMapper _teamSightingMapper;
+        private readonly ICollectedItemMapper _collectedItemMapper;
+
+        public TeamMapper(ITeamSightingMapper teamSightingMapper, ICollectedItemMapper collectedItemMapper)
+        {
+            _teamSightingMapper = teamSightingMapper;
+            _collectedItemMapper = collectedItemMapper;
+        }
+
         public IEnumerable<TeamResponse> Map(IEnumerable<Team> entities)
         {
             return entities.Select(Map);
         }
 
-        private static TeamResponse Map(Team entity)
+        public TeamResponse Map(Team entity)
         {
             return new TeamResponse
             {
                 ExternalId = entity.ExternalId,
-                Name = entity.Name
+                Name = entity.Name,
+                Sightings = _teamSightingMapper.Map(entity.Sightings),
+                CollectedItems = _collectedItemMapper.Map(entity.CollectedItems),
             };
         }
     }

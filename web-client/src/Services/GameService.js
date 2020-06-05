@@ -7,22 +7,22 @@ class GameService {
     }
     
     startGame(gameId){
-        return this.api.put(`Game/Start/${gameId}`)
+        return this.api.put(`Admin/Game/Start/${gameId}`)
         .then(res => res.data)
     }
 
     stopGame(gameId){
-        return this.api.put(`Game/Stop/${gameId}`)
+        return this.api.put(`Admin/Game/Stop/${gameId}`)
         .then(res => res.data)
     }
 
     reset(gameId){
-        return this.api.post(`Game/Reset/${gameId}`)
+        return this.api.post(`Admin/Game/Reset/${gameId}`)
         .then(res => res.data)
     }
 
     get(gameId){
-        return this.api.get(`Game/Get/${gameId}`)
+        return this.api.get(`Admin/Game/Get/${gameId}`)
         .then(res => res.data)
     }
 };

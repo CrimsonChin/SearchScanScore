@@ -2,9 +2,10 @@
 
 namespace CodeHunt.Domain.Responses
 {
-    public class TeamCollectedItemResponse
+    public class CollectedItemResponse
     {
         public string CollectableItemName { get; set; }
+
         public DateTime CollectedAt { get; set; }
     }
 }

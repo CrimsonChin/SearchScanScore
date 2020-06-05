@@ -6,18 +6,33 @@ class TeamService {
         this.api = API.create(ConfigurationService.FoundItService);
     }
     
-    canJoinTeam(gameId, teamId){
-        return this.api.get(`Team/CanJoin/${gameId}/${teamId}`)
+    joinTeam(gameId, teamId){
+        return this.api.get(`Team/Join/${gameId}/${teamId}`)
         .then(res => res.data)
     }
 
-    collectItem(gameId, teamId, collectableItemId){
-         return this.api.post(`Team/AddCollectedItem/${gameId}/${teamId}/${collectableItemId}`)
+    addCollectedItem(gameId, teamId, collectableItemId){
+        return this.api.post(`Team/CollectedItem/Add/${gameId}/${teamId}/${collectableItemId}`)
+       .then(res => res.data)
+   }
+
+    getCollectedItems(gameId, teamId){
+         return this.api.get(`Team/CollectedItem/Get/${gameId}/${teamId}`)
         .then(res => res.data)
     }
 
-    get(gameId, teamId){
-        return this.api.get(`Team/Get/${gameId}/${teamId}`)
+    getSightings(gameId, teamId){
+        return this.api.get(`Team/Sighting/Get/${gameId}/${teamId}`)
+        .then(res => res.data)
+    }
+
+    // getCollectableItems(gameId, teamId){
+    //     return this.api.get(`Team/CollectableItem/Get/${gameId}`)
+    //     .then(res => res.data)
+    // }
+
+    getRemainingCollectableItems(gameId, teamId){
+        return this.api.get(`Team/CollectableItem/GetRemaining/${gameId}/${teamId}`)
         .then(res => res.data)
     }
 };

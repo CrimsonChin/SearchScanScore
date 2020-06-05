@@ -6,9 +6,10 @@ DotNetCore 3.1 Web API
 - [x] introduce repositories and services (rename existing service to repos and pass through new services)
 - [x] Push Domain logic into services from repos
 - [x] Push Domain logic into services from controllers
-- [ ] Split controllers to have single responsibilities
+- [x] Split controllers to have single responsibilities
 - [x] Make use of Async throughgout and add Async to signatures
 - [x] Add exception handling and error codes
+- [x] Split API into Areas
 - [ ] Use Filters for validation
 - [ ] Use Request Objects
 - [ ] Use schema definitions

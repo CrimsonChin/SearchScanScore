@@ -1,6 +1,6 @@
 ﻿namespace CodeHunt.Domain.Responses
 {
-    public class TeamCollectableItemResponse
+    public class AnonymousCollectableItemResponse
     {
         public string Name { get; set; }
     }

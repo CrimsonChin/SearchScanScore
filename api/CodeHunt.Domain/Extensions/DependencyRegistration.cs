@@ -17,8 +17,8 @@ namespace CodeHunt.Domain.Extensions
 
             // Team Mappers
             services
-                .AddSingleton<ITeamCollectableItemMapper, TeamCollectableItemMapper>()
-                .AddSingleton<ITeamCollectedItemMapper, TeamCollectedItemMapper>()
+                .AddSingleton<IAnonymousCollectableItemMapper, AnonymousCollectableItemMapper>()
+                .AddSingleton<ICollectedItemMapper, CollectedItemMapper>()
                 .AddSingleton<ITeamSightingMapper, TeamSightingMapper>();
 
             return services;
@@ -27,10 +27,12 @@ namespace CodeHunt.Domain.Extensions
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             services
+                .AddScoped<ICollectableItemService, CollectableItemService>()
                 .AddScoped<ICollectedItemService, CollectedItemService>()
                 .AddScoped<IGameService, GameService>()
                 .AddScoped<ISightingService, SightingService>()
                 .AddScoped<ITeamService, TeamService>();
+
 
             return services;
         }

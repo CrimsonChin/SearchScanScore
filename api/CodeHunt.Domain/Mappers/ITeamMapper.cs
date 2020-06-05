@@ -7,5 +7,7 @@ namespace CodeHunt.Domain.Mappers
     public interface ITeamMapper
     {
         IEnumerable<TeamResponse> Map(IEnumerable<Team> entities);
+
+        TeamResponse Map(Team entity);
     }
 }

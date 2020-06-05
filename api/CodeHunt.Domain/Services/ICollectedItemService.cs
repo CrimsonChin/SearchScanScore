@@ -8,6 +8,6 @@ namespace CodeHunt.Domain.Services
     {
         Task AddCollectedItemAsync(string gameExternalId, string teamExternalId, string itemExternalId);
 
-        Task<IEnumerable<TeamCollectedItemResponse>> GetCollectedItemsAsync(string gameExternalId, string teamExternalId);
+        Task<IEnumerable<CollectedItemResponse>> GetCollectedItemsAsync(string gameExternalId, string teamExternalId);
     }
 }

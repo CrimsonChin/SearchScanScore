@@ -54,7 +54,7 @@ namespace CodeHunt.Domain.Services
             await _sightingRepository.UnitOfWork.SaveChangesAsync();
         }
 
-        private async Task<IEnumerable<TeamSightingResponse>> GetSightingsAsync(string gameExternalId, string teamExternalId)
+        public async Task<IEnumerable<SightingResponse>> GetSightingsAsync(string gameExternalId, string teamExternalId)
         {
             var sightings = await _sightingRepository.GetAsync(gameExternalId, teamExternalId);
 

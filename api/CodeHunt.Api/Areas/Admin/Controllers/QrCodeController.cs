@@ -3,9 +3,10 @@ using System.IO;
 using CodeHunt.QrCode;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CodeHunt.Api.Controllers
+namespace CodeHunt.Api.Areas.Admin.Controllers
 {
-    [Route("api/[controller]")]
+    [Area("Admin")]
+    [Route("api/admin/[controller]")]
     [ApiController]
     public class QrCodeController : ControllerBase
     {

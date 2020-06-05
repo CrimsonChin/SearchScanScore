@@ -16,7 +16,7 @@ class GuardHarness extends React.Component {
 
     recordSighting = (event) => {
       console.log("Spotted Team: ", this.state.teamId)
-      GuardService.recordSighting(this.props.gameId, this.props.guardId, this.state.teamId).then((data) => {
+      GuardService.addSighting(this.props.gameId, this.props.guardId, this.state.teamId).then((data) => {
         console.log(data)
         this.setState({
           teamId: ""

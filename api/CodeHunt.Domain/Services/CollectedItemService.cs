@@ -14,16 +14,16 @@ namespace CodeHunt.Domain.Services
     {
         private readonly IGameRepository _gameRepository;
         private readonly ICollectedItemRepository _collectedItemRepository;
-        private readonly ITeamCollectedItemMapper _teamCollectedItemMapper;
+        private readonly ICollectedItemMapper _collectedItemMapper;
 
         public CollectedItemService(
             IGameRepository gameRepository, 
             ICollectedItemRepository collectedItemRepository, 
-            ITeamCollectedItemMapper teamCollectedItemMapper)
+            ICollectedItemMapper collectedItemMapper)
         {
             _gameRepository = gameRepository;
             _collectedItemRepository = collectedItemRepository;
-            _teamCollectedItemMapper = teamCollectedItemMapper;
+            _collectedItemMapper = collectedItemMapper;
         }
 
         public async Task AddCollectedItemAsync(string gameExternalId, string teamExternalId, string itemExternalId)
@@ -67,13 +67,13 @@ namespace CodeHunt.Domain.Services
             await _collectedItemRepository.UnitOfWork.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<TeamCollectedItemResponse>> GetCollectedItemsAsync(string gameExternalId, string teamExternalId)
+        public async Task<IEnumerable<CollectedItemResponse>> GetCollectedItemsAsync(string gameExternalId, string teamExternalId)
         {
             // TODO validation
 
             var collectedItems = await _collectedItemRepository.GetCollectedItemsAsync(gameExternalId, teamExternalId);
 
-            return _teamCollectedItemMapper.Map(collectedItems);
+            return _collectedItemMapper.Map(collectedItems);
         }
     }
 }

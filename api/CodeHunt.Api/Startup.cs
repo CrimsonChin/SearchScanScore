@@ -54,7 +54,7 @@ namespace CodeHunt.Api
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Status Hunt", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Code Hunt", Version = "v1" });
             });
 
             services.AddControllers(options =>
@@ -72,7 +72,7 @@ namespace CodeHunt.Api
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Status Hunt API V1");
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Code Hunt API V1");
                 });
 
             }
@@ -88,6 +88,13 @@ namespace CodeHunt.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+
+                endpoints.MapAreaControllerRoute(
+                    name: "areas",
+                    areaName: "areas",
+                    pattern: "{area}/{controller=Home}/{action=Index}/{id?}"
+                );
+
                 endpoints.MapHub<TeamHub>("/teamHub");
             });
         }

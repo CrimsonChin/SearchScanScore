@@ -7,19 +7,19 @@ namespace CodeHunt.Domain.Mappers
 {
     public class TeamSightingMapper : ITeamSightingMapper
     {
-        public IEnumerable<TeamSightingResponse> Map(IEnumerable<Sighting> entities)
+        public IEnumerable<SightingResponse> Map(IEnumerable<Sighting> entities)
         {
             if (entities == null || !entities.Any())
             {
-                return Enumerable.Empty<TeamSightingResponse>();
+                return Enumerable.Empty<SightingResponse>();
             }
 
             return entities.Select(Map);
         }
 
-        private static TeamSightingResponse Map(Sighting entity)
+        private static SightingResponse Map(Sighting entity)
         {
-            return new TeamSightingResponse
+            return new SightingResponse
             {
                 SightedAt = entity.SightedAt,
                 SightedBy = entity.Guard.Name

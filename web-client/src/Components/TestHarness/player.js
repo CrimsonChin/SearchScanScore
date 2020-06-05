@@ -24,7 +24,7 @@ class Player extends React.Component {
 
     collect = (event) => {
       console.log("Collecting Item: ", this.state.collectableItemId)
-      TeamService.collectItem(this.props.gameId, this.props.teamId, this.state.collectableItemId).then((data) => {
+      TeamService.addCollectedItem(this.props.gameId, this.props.teamId, this.state.collectableItemId).then((data) => {
         console.log(data)
         this.setState({
           collectableItemId: ""
@@ -33,25 +33,41 @@ class Player extends React.Component {
     }
 
     get = (event) => {
-      console.log("Team -> Get")
-      TeamService.get(this.props.gameId, this.props.teamId).then((data) => {
-        console.log(data)
+      TeamService.getRemainingCollectableItems(this.props.gameId, this.props.teamId).then((data) => {
+        console.log("collectable/remaining", data)
         data = data || {
-          itemsCollected: [],
-          sightings: [],
-          remainingItems: []
+          remainingItems: [],
         }
         this.setState({
-          collectedItems: data.itemsCollected,
-          remainingItems: data.remainingItems,
-          sightings: data.sightings
+          remainingItems: data
+        })
+      })
+
+      TeamService.getCollectedItems(this.props.gameId, this.props.teamId).then((data) => {
+        console.log("collected", data)
+        data = data || {
+          itemsCollected: [],
+        }
+
+        this.setState({
+          collectedItems: data,
+        })
+      })
+
+      TeamService.getSightings(this.props.gameId, this.props.teamId).then((data) => {
+        console.log("sightings", data)
+        data = data || {
+          sightings: []
+        }
+        this.setState({
+          sightings: data
         })
       })
     }
 
     componentDidMount = () => {
-      this.get();
-
+      this.get()
+      
       const teamHubConnection = new HubConnectionBuilder()
       .withUrl("https://localhost:44394/teamHub")
       .configureLogging(LogLevel.Trace)
