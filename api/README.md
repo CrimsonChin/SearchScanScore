@@ -10,12 +10,17 @@ DotNetCore 3.1 Web API
 - [x] Make use of Async throughgout and add Async to signatures
 - [x] Add exception handling and error codes
 - [x] Split API into Areas
+- [x] Use "Codes" for the user to collectableItems things, otherwise make ExternalIds GUIDs
 - [ ] Use Filters for validation
 - [ ] Use Request Objects
 - [ ] Use schema definitions
+- [ ] Require login to access anything in the admin area
+- [ ] Introduce game status' (Offline, Ready, Started, Finished)
 - [ ] Get Active game from cache
-- [ ] Tests
+- [ ] Tests (Unit and Acceptance)
 - [ ] Containerize 
+- [ ] Pipelines
+- [ ] Consider using generic repository and specification pattern
 
 ## Design
 ### Architecture
