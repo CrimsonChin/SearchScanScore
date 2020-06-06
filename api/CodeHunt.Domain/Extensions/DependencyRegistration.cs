@@ -33,7 +33,6 @@ namespace CodeHunt.Domain.Extensions
                 .AddScoped<ISightingService, SightingService>()
                 .AddScoped<ITeamService, TeamService>();
 
-
             return services;
         }
     }

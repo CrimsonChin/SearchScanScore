@@ -26,39 +26,40 @@ namespace CodeHunt.Domain.Services
             _collectedItemMapper = collectedItemMapper;
         }
 
-        public async Task AddCollectedItemAsync(string gameExternalId, string teamExternalId, string itemExternalId)
+        public async Task AddCollectedItemAsync(string gameCode, string teamCode, string itemCode)
         {
-            var game = await _gameRepository.GetAsync(gameExternalId);
+            var game = await _gameRepository.GetAsync(gameCode);
             if (game == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound, $"No game found with external Id: {gameExternalId}");
+                throw new HttpResponseException(HttpStatusCode.NotFound, $"No game found with code: {gameCode}");
             }
 
             if (game.IsActive == false)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound, $"No active game found with external Id: {gameExternalId}");
+                throw new HttpResponseException(HttpStatusCode.NotFound, $"No active game found with code: {gameCode}");
             }
 
-            var team = game.Teams.SingleOrDefault(x => x.ExternalId == teamExternalId);
+            var team = game.Teams.SingleOrDefault(x => x.Code == teamCode);
             if (team == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound, $"No team found with external Id: {teamExternalId}");
+                throw new HttpResponseException(HttpStatusCode.NotFound, $"No team found with code: {teamCode}");
             }
 
-            var item = game.CollectableItems.SingleOrDefault(x => x.ExternalId == itemExternalId);
+            var item = game.CollectableItems.SingleOrDefault(x => x.Code == itemCode);
             if (item == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound, $"No item found with external Id: {itemExternalId}");
+                throw new HttpResponseException(HttpStatusCode.NotFound, $"No item found with code: {itemCode}");
             }
 
-            var collectedItems = await _collectedItemRepository.GetCollectedItemsAsync(gameExternalId, teamExternalId);
-            if (collectedItems.Any(x => x.CollectableItem.ExternalId == itemExternalId))
+            var collectedItems = await _collectedItemRepository.GetCollectedItemsAsync(gameCode, teamCode);
+            if (collectedItems.Any(x => x.CollectableItem.Code == itemCode))
             {
-                throw new HttpResponseException(HttpStatusCode.Conflict, $"Item {itemExternalId} already collected");
+                throw new HttpResponseException(HttpStatusCode.Conflict, $"Item {itemCode} already collected");
             }
 
             _collectedItemRepository.Add(new Entities.CollectedItem
             {
+                ExternalId = Guid.NewGuid(),
                 Team = team,
                 CollectableItem = item,
                 CollectedAt = DateTime.UtcNow
@@ -67,11 +68,11 @@ namespace CodeHunt.Domain.Services
             await _collectedItemRepository.UnitOfWork.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<CollectedItemResponse>> GetCollectedItemsAsync(string gameExternalId, string teamExternalId)
+        public async Task<IEnumerable<CollectedItemResponse>> GetCollectedItemsAsync(string gameCode, string teamCode)
         {
             // TODO validation
 
-            var collectedItems = await _collectedItemRepository.GetCollectedItemsAsync(gameExternalId, teamExternalId);
+            var collectedItems = await _collectedItemRepository.GetCollectedItemsAsync(gameCode, teamCode);
 
             return _collectedItemMapper.Map(collectedItems);
         }

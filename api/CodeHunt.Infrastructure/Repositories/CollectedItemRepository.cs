@@ -24,11 +24,11 @@ namespace CodeHunt.Infrastructure.Repositories
             return _context.CollectedItems.Add(collectedItem).Entity;
         }
 
-        public async Task<IEnumerable<CollectedItem>> GetCollectedItemsAsync(string gameExternalId, string teamExternalId)
+        public async Task<IEnumerable<CollectedItem>> GetCollectedItemsAsync(string gameCode, string teamCode)
         {
             var team = await _context.Teams
-                .Where(x => x.ExternalId == teamExternalId
-                            && x.Game.ExternalId == gameExternalId)
+                .Where(x => x.Code == teamCode
+                            && x.Game.Code == gameCode)
                 .Include(x => x.CollectedItems)
                 .ThenInclude(collectedItem => collectedItem.CollectableItem)
                 .FirstOrDefaultAsync();

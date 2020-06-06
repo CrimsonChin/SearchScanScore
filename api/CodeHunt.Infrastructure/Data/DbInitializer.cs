@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CodeHunt.Domain.Entities;
 
@@ -18,7 +19,8 @@ namespace CodeHunt.Infrastructure.Data
             context.Games.Add(new Game
             {
                 GameId = 1,
-                ExternalId = "UVWMN",
+                ExternalId = Guid.NewGuid(),
+                Code = "UVWMN",
                 Name = "Example GameResponse"
             });
 
@@ -29,23 +31,26 @@ namespace CodeHunt.Infrastructure.Data
                 new Team
                 {
                     TeamId = 1,
+                    ExternalId = Guid.NewGuid(),
                     GameId = 1,
                     Name = "Vikings",
-                    ExternalId = "VJG4Q"
+                    Code = "VJG4Q"
                 },
                 new Team
                 {
                     TeamId = 2,
+                    ExternalId = Guid.NewGuid(),
                     GameId = 1,
                     Name = "Saxons",
-                    ExternalId = "A8THQ"
+                    Code = "A8THQ"
                 },
                 new Team
                 {
                     TeamId = 3,
+                    ExternalId = Guid.NewGuid(),
                     GameId = 1,
                     Name = "Mercians",
-                    ExternalId = "FJ7EM"
+                    Code = "FJ7EM"
                 },
             };
 
@@ -62,16 +67,18 @@ namespace CodeHunt.Infrastructure.Data
                 new Guard
                 {
                     GuardId = 1,
+                    ExternalId = Guid.NewGuid(),
                     GameId = 1,
                     Name = "Strict Jeremy",
-                    ExternalId = "Y709W"
+                    Code = "Y709W"
                 },
                 new Guard
                 {
                     GuardId = 2,
+                    ExternalId = Guid.NewGuid(),
                     GameId = 1,
                     Name = "Watchful Mark",
-                    ExternalId = "JA9L6"
+                    Code = "JA9L6"
                 }
             };
 
@@ -87,51 +94,58 @@ namespace CodeHunt.Infrastructure.Data
                 new CollectableItem
                 {
                     CollectableItemId = 1,
+                    ExternalId = Guid.NewGuid(),
                     GameId = 1,
-                    Name = "Behind the book case",
-                    ExternalId = "VU75T"
+                    Name = "The concrete cows inspired the brew",
+                    Code = "VU75T"
                 },
                 new CollectableItem
                 {
                     CollectableItemId = 2,
+                    ExternalId = Guid.NewGuid(),
                     GameId = 1,
-                    Name = "Neither up nor down.  stair/jacket/palm",
-                    ExternalId = "65EFU"
+                    Name = "What 3 words? stair/jacket/palm",
+                    Code = "65EFU"
                 },
                 new CollectableItem
                 {
                     CollectableItemId = 3,
+                    ExternalId = Guid.NewGuid(),
                     GameId = 1,
-                    Name = "The site of the most famous burglary in Bletchley",
-                    ExternalId = "75GF0",
+                    Name = "If you need a lift but raffles won't do.  It's not the distance that's the problem.",
+                    Code = "75GF0",
                 },
                 new CollectableItem
                 {
                     CollectableItemId = 4,
+                    ExternalId = Guid.NewGuid(),
                     GameId = 1,
                     Name = "What has face and two arms but no body?",
-                    ExternalId = "YMDVJ",
+                    Code = "YMDVJ",
                 },
                 new CollectableItem
                 {
                     CollectableItemId = 5,
+                    ExternalId = Guid.NewGuid(),
                     GameId = 1,
-                    Name = "The war, the thought, the passing of time...",
-                    ExternalId = "ID1ZO",
+                    Name = "The home of the code breakers, stationed outside",
+                    Code = "ID1ZO",
                 },
                 new CollectableItem
                 {
                     CollectableItemId = 6,
+                    ExternalId = Guid.NewGuid(),
                     GameId = 1,
-                    Name = "Watch",
-                    ExternalId = "P0DN9",
+                    Name = "A beacon.",
+                    Code = "P0DN9",
                 },
                 new CollectableItem
                 {
                     CollectableItemId = 7,
+                    ExternalId = Guid.NewGuid(),
                     GameId = 1,
-                    Name = "A sculpture... or a blemish?",
-                    ExternalId = "BQEY7",
+                    Name = "Three greats, three golds.  Leaping into view in a roundabout way.",
+                    Code = "BQEY7",
                 }
             };
 

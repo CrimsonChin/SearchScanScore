@@ -8,6 +8,6 @@ namespace CodeHunt.Domain.Repositories
     {
         Sighting Add(Sighting sighting);
 
-        Task<IEnumerable<Sighting>> GetAsync(string gameExternalId, string teamExternalId);
+        Task<IEnumerable<Sighting>> GetAsync(string gameCode, string teamCode);
     }
 }

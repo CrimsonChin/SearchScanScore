@@ -16,10 +16,10 @@ namespace CodeHunt.Api.Areas.Team.Controllers
             _teamService = teamService;
         }
 
-        [HttpGet("Join/{gameExternalId}/{teamExternalId}")]
-        public async Task<IActionResult> Join(string gameExternalId, string teamExternalId)
+        [HttpGet("Join/{gameCode}/{teamCode}")]
+        public async Task<IActionResult> Join(string gameCode, string teamCode)
         {
-            var canJoinTeam = await _teamService.CanJoinTeamAsync(gameExternalId, teamExternalId);
+            var canJoinTeam = await _teamService.CanJoinTeamAsync(gameCode, teamCode);
 
             return Ok(canJoinTeam);
         }

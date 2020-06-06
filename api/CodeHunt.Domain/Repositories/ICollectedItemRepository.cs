@@ -8,6 +8,6 @@ namespace CodeHunt.Domain.Repositories
     {
         CollectedItem Add(CollectedItem collectedItem);
 
-        Task<IEnumerable<CollectedItem>> GetCollectedItemsAsync(string gameExternalId, string teamExternalId);
+        Task<IEnumerable<CollectedItem>> GetCollectedItemsAsync(string gameCode, string teamCode);
     }
 }

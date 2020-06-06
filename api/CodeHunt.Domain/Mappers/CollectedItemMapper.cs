@@ -20,7 +20,9 @@ namespace CodeHunt.Domain.Mappers
 
             return new CollectedItemResponse
             {
+                ExternalId = entity.ExternalId,
                 CollectableItemName = entity.CollectableItem.Name,
+                CollectableItemExternalId = entity.CollectableItem.ExternalId,
                 CollectedAt = entity.CollectedAt
             };
         }

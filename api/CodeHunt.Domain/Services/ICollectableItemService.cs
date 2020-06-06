@@ -6,8 +6,8 @@ namespace CodeHunt.Domain.Services
 {
     public interface ICollectableItemService
     {
-        Task<IEnumerable<AnonymousCollectableItemResponse>> GetAnonymousAsync(string gameExternalId);
+        Task<IEnumerable<AnonymousCollectableItemResponse>> GetAnonymousAsync(string gameCode);
 
-        Task<IEnumerable<AnonymousCollectableItemResponse>> GetRemainingAsync(string gameExternalId, string teamExternalId);
+        Task<IEnumerable<AnonymousCollectableItemResponse>> GetRemainingAsync(string gameCode, string teamCode);
     }
 }

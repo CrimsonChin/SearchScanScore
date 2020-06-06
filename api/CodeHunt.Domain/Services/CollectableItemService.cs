@@ -22,17 +22,17 @@ namespace CodeHunt.Domain.Services
             _anonymousCollectableItemMapper = anonymousCollectableItemMapper;
         }
 
-        public async Task<IEnumerable<AnonymousCollectableItemResponse>> GetAnonymousAsync(string gameExternalId)
+        public async Task<IEnumerable<AnonymousCollectableItemResponse>> GetAnonymousAsync(string gameCode)
         {
-            var game = await _gameRepository.GetAsync(gameExternalId);
+            var game = await _gameRepository.GetAsync(gameCode);
             if (game == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound, $"No game found with external Id: {gameExternalId}");
+                throw new HttpResponseException(HttpStatusCode.NotFound, $"No game found with code: {gameCode}");
             }
 
             if (game.IsActive == false)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound, $"No active game found with external Id: {gameExternalId}");
+                throw new HttpResponseException(HttpStatusCode.NotFound, $"No active game found with code: {gameCode}");
             }
 
             var response = _anonymousCollectableItemMapper.Map(game.CollectableItems);
@@ -40,23 +40,23 @@ namespace CodeHunt.Domain.Services
             return response;
         }
 
-        public async Task<IEnumerable<AnonymousCollectableItemResponse>> GetRemainingAsync(string gameExternalId, string teamExternalId)
+        public async Task<IEnumerable<AnonymousCollectableItemResponse>> GetRemainingAsync(string gameCode, string teamCode)
         {
-            var game = await _gameRepository.GetAsync(gameExternalId);
+            var game = await _gameRepository.GetAsync(gameCode);
             if (game == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound, $"No game found with external Id: {gameExternalId}");
+                throw new HttpResponseException(HttpStatusCode.NotFound, $"No game found with code: {gameCode}");
             }
 
             if (game.IsActive == false)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound, $"No active game found with external Id: {gameExternalId}");
+                throw new HttpResponseException(HttpStatusCode.NotFound, $"No active game found with code: {gameCode}");
             }
 
-            var team = game.Teams.SingleOrDefault(x => x.ExternalId == teamExternalId);
+            var team = game.Teams.SingleOrDefault(x => x.Code == teamCode);
             if (team == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound, $"No team found with external Id: {teamExternalId}");
+                throw new HttpResponseException(HttpStatusCode.NotFound, $"No team found with code: {teamCode}");
             }
 
             team = await _teamRepository.Get(team.TeamId);

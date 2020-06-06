@@ -19,19 +19,19 @@ namespace CodeHunt.Api.Areas.Team.Controllers
             _collectedItemService = collectedItemService;
         }
 
-        [HttpPost("Add/{gameExternalId}/{teamExternalId}/{collectableItemExternalId}")]
-        public async Task<IActionResult> Add(string gameExternalId, string teamExternalId, string collectableItemExternalId)
+        [HttpPost("Add/{gameCode}/{teamCode}/{collectableItemCode}")]
+        public async Task<IActionResult> Add(string gameCode, string teamCode, string collectableItemCode)
         {
-            await _collectedItemService.AddCollectedItemAsync(gameExternalId, teamExternalId, collectableItemExternalId);
-            await _teamNotificationService.SendItemFoundNotificationAsync(gameExternalId, teamExternalId, collectableItemExternalId);
+            await _collectedItemService.AddCollectedItemAsync(gameCode, teamCode, collectableItemCode);
+            await _teamNotificationService.SendItemFoundNotificationAsync(gameCode, teamCode, collectableItemCode);
 
             return Ok(true);
         }
 
-        [HttpGet("Get/{gameExternalId}/{teamExternalId}")]
-        public async Task<IActionResult> Get(string gameExternalId, string teamExternalId)
+        [HttpGet("Get/{gameCode}/{teamCode}")]
+        public async Task<IActionResult> Get(string gameCode, string teamCode)
         {
-            var collectedItems = await _collectedItemService.GetCollectedItemsAsync(gameExternalId, teamExternalId);
+            var collectedItems = await _collectedItemService.GetCollectedItemsAsync(gameCode, teamCode);
 
             return Ok(collectedItems);
         }

@@ -24,39 +24,45 @@ namespace CodeHunt.Domain.Services
             _teamSightingMapper = teamSightingMapper;
         }
         
-        public async Task AddSightingAsync(string gameExternalId, string guardExternalId, string teamExternalId)
+        public async Task AddSightingAsync(string gameCode, string guardCode, string teamCode)
         {
-            var game = await _gameRepository.GetAsync(gameExternalId);
+            var game = await _gameRepository.GetAsync(gameCode);
             if (game == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound, $"No game found with external Id: {gameExternalId}");
+                throw new HttpResponseException(HttpStatusCode.NotFound, $"No game found with code: {gameCode}");
             }
 
             if (game.IsActive == false)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound, $"No active game found with external Id: {gameExternalId}");
+                throw new HttpResponseException(HttpStatusCode.NotFound, $"No active game found with code: {gameCode}");
             }
 
-            var guard = game.Guards.SingleOrDefault(x => x.ExternalId == guardExternalId);
+            var guard = game.Guards.SingleOrDefault(x => x.Code == guardCode);
             if (guard == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound, $"No guard found with external Id: {gameExternalId}");
+                throw new HttpResponseException(HttpStatusCode.NotFound, $"No guard found with code: {gameCode}");
             }
 
-            var team = game.Teams.SingleOrDefault(x => x.ExternalId == teamExternalId);
+            var team = game.Teams.SingleOrDefault(x => x.Code == teamCode);
             if (team == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound, $"No team found with external Id: {teamExternalId}");
+                throw new HttpResponseException(HttpStatusCode.NotFound, $"No team found with code: {teamCode}");
             }
 
-            _sightingRepository.Add(new Sighting { Team = team, Guard = guard, SightedAt = DateTime.UtcNow });
+            _sightingRepository.Add(new Sighting
+            {
+                ExternalId = Guid.NewGuid(),
+                Team = team,
+                Guard = guard,
+                SightedAt = DateTime.UtcNow
+            });
 
             await _sightingRepository.UnitOfWork.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<SightingResponse>> GetSightingsAsync(string gameExternalId, string teamExternalId)
+        public async Task<IEnumerable<SightingResponse>> GetSightingsAsync(string gameCode, string teamCode)
         {
-            var sightings = await _sightingRepository.GetAsync(gameExternalId, teamExternalId);
+            var sightings = await _sightingRepository.GetAsync(gameCode, teamCode);
 
             return _teamSightingMapper.Map(sightings);
         }

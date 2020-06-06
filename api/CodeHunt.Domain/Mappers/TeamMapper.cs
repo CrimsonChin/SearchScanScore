@@ -26,6 +26,7 @@ namespace CodeHunt.Domain.Mappers
             return new TeamResponse
             {
                 ExternalId = entity.ExternalId,
+                Code = entity.Code,
                 Name = entity.Name,
                 Sightings = _teamSightingMapper.Map(entity.Sightings),
                 CollectedItems = _collectedItemMapper.Map(entity.CollectedItems),

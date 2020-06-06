@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace CodeHunt.Domain.Responses
@@ -12,9 +13,9 @@ namespace CodeHunt.Domain.Responses
             CollectableItems = Enumerable.Empty<CollectableItemResponse>();
         }
 
-        public int Id { get; set; }
+        public Guid ExternalId { get; set; }
 
-        public string ExternalId { get; set; }
+        public string Code { get; set; }
 
         public string Name { get; set; }
 

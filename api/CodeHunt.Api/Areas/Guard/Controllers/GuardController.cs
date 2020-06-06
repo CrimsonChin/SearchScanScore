@@ -7,8 +7,8 @@ namespace CodeHunt.Api.Areas.Guard.Controllers
     [ApiController]
     public class GuardController : ControllerBase
     {
-        [HttpGet("Join/{gameExternalId}/{guardExternalId}")]
-        public IActionResult Join(string gameExternalId, string guardExternalId)
+        [HttpGet("Join/{gameCode}/{guardCode}")]
+        public IActionResult Join(string gameCode, string guardCode)
         {
             return Ok(true);
         }

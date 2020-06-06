@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace CodeHunt.Domain.Responses
 {
     public class TeamResponse
     {
-        public string ExternalId { get; set; }
+        public Guid ExternalId { get; set; }
+
+        public string Code { get; set; }
 
         public string Name { get; set; }
 

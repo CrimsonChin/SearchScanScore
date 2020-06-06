@@ -12,6 +12,7 @@ class Player extends React.Component {
         this.state = {
           hubConnection: null,
           collectableItemId: "",
+          collectableItems: [],
           sightings: [],
           collectedItems: [],
           remainingItems: [],
@@ -32,17 +33,7 @@ class Player extends React.Component {
       })
     }
 
-    get = (event) => {
-      TeamService.getRemainingCollectableItems(this.props.gameId, this.props.teamId).then((data) => {
-        console.log("collectable/remaining", data)
-        data = data || {
-          remainingItems: [],
-        }
-        this.setState({
-          remainingItems: data
-        })
-      })
-
+    getCollectedItems = (event) => {
       TeamService.getCollectedItems(this.props.gameId, this.props.teamId).then((data) => {
         console.log("collected", data)
         data = data || {
@@ -50,10 +41,12 @@ class Player extends React.Component {
         }
 
         this.setState({
-          collectedItems: data,
-        })
+          collectedItems: data
+        }, this.updateRemainingItems)
       })
+    }
 
+    getSightings = () => {
       TeamService.getSightings(this.props.gameId, this.props.teamId).then((data) => {
         console.log("sightings", data)
         data = data || {
@@ -65,8 +58,55 @@ class Player extends React.Component {
       })
     }
 
+    getCollectableItems = () => {
+      TeamService.getCollectableItems(this.props.gameId).then((data) => {
+        console.log("collectable", data)
+        data = data || {
+          collectableItems: [],
+        }
+
+        this.setState({
+          collectableItems: data
+        }, this.updateRemainingItems)
+      })
+    }
+
+    updateRemainingItems(){
+      console.log("update remaining", this.state.collectableItems)
+      var remainingItems = [];
+      if (this.state.collectedItems.length === 0){
+        this.setState({
+          remainingItems: this.state.collectableItems
+        })
+        return
+      }
+
+      this.state.collectableItems.forEach(collectableItem => {
+        if (this.state.collectedItems.findIndex(collectedItem => collectedItem.collectableItemExternalId === collectableItem.externalId) === -1){
+          remainingItems.push(collectableItem)
+        }
+      })
+
+      this.setState({
+        remainingItems: remainingItems
+      })
+    }
+
     componentDidMount = () => {
-      this.get()
+      TeamService.getCollectableItems(this.props.gameId).then((data) => {
+        console.log("collectable", data)
+        data = data || {
+          collectableItems: [],
+        }
+
+        this.setState({
+          collectableItems: data
+        }, this.updateRemainingItems)
+      })
+
+
+      this.getCollectedItems()
+      this.getSightings()
       
       const teamHubConnection = new HubConnectionBuilder()
       .withUrl("https://localhost:44394/teamHub")
@@ -88,12 +128,12 @@ class Player extends React.Component {
 
           this.state.teamHubConnection.on('Sighted', (guardId) => {
             console.log(`${this.props.teamId} SIGHTED BY ${guardId}`)
-            this.get()
+            this.getSightings()
           });
 
           this.state.teamHubConnection.on('ItemFound', (itemId) => {
             console.log(`${this.props.teamId} FOUND ${itemId}`)
-            this.get()
+            this.getCollectedItems()
           });
 
           this.state.teamHubConnection.on('AdminMessage', (message) => {

@@ -16,10 +16,10 @@ namespace CodeHunt.Api.Areas.Team.Controllers
             _sightingService = sightingService;
         }
 
-        [HttpGet("Get/{gameExternalId}/{teamExternalId}")]
-        public async Task<IActionResult> Get(string gameExternalId, string teamExternalId)
+        [HttpGet("Get/{gameCode}/{teamCode}")]
+        public async Task<IActionResult> Get(string gameCode, string teamCode)
         {
-            var sightings = await _sightingService.GetSightingsAsync(gameExternalId, teamExternalId);
+            var sightings = await _sightingService.GetSightingsAsync(gameCode, teamCode);
 
             return Ok(sightings);
         }

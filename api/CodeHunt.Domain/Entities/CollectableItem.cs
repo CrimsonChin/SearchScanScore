@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CodeHunt.Domain.Entities
 {
@@ -6,7 +7,11 @@ namespace CodeHunt.Domain.Entities
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int CollectableItemId { get; set; }
-        public string ExternalId { get; set; }
+
+        public Guid ExternalId { get; set; }
+
+        public string Code { get; set; }
+
         public string Name { get; set; }
 
         public int GameId { get; set; }

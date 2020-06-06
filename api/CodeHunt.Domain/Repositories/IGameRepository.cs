@@ -5,10 +5,10 @@ namespace CodeHunt.Domain.Repositories
 {
     public interface IGameRepository : IRepository
     {
-        Task<Game> GetAsync(string gameExternalId);
+        Task<Game> GetAsync(string gameCode);
         
         Game Update(Game game);
 
-        void Reset(string gameExternalId);
+        void Reset(string gameCode);
     }
 }

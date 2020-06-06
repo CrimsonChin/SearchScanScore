@@ -19,13 +19,13 @@ namespace CodeHunt.Infrastructure.Repositories
 
         public IUnitOfWork UnitOfWork => _context;
 
-        public async Task<Game> GetAsync(string gameExternalId)
+        public async Task<Game> GetAsync(string gameCode)
         {
             var game = await _context.Games
                 .Include(x => x.Teams)
                 .Include(x => x.Guards)
                 .Include(x => x.CollectableItems)
-                .SingleOrDefaultAsync(x => x.ExternalId == gameExternalId);
+                .SingleOrDefaultAsync(x => x.Code == gameCode);
 
             return game;
         }
@@ -36,14 +36,14 @@ namespace CodeHunt.Infrastructure.Repositories
             return game;
         }
 
-        public void Reset(string gameExternalId)
+        public void Reset(string gameCode)
         {
             var game = _context.Games
                 .Include(x => x.Teams)
                 .ThenInclude(x => x.CollectedItems) 
                 .Include(x => x.Teams)
                 .ThenInclude(x => x.Sightings)
-                .SingleOrDefault(x => x.ExternalId == gameExternalId);
+                .SingleOrDefault(x => x.Code == gameCode);
 
             game.IsActive = false;
 

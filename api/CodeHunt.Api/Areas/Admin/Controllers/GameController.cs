@@ -16,31 +16,31 @@ namespace CodeHunt.Api.Areas.Admin.Controllers
             _gameService = gameService;
         }
 
-        [HttpPut("Start/{gameExternalId}")]
-        public async Task Start(string gameExternalId)
+        [HttpPut("Start/{gameCode}")]
+        public async Task Start(string gameCode)
         {
-            await _gameService.StartGameAsync(gameExternalId);
+            await _gameService.StartGameAsync(gameCode);
         }
 
-        [HttpPut("Stop/{gameExternalId}")]
-        public async Task Stop(string gameExternalId)
+        [HttpPut("Stop/{gameCode}")]
+        public async Task Stop(string gameCode)
         {
-            await _gameService.StopGameAsync(gameExternalId);
+            await _gameService.StopGameAsync(gameCode);
         }
 
-        [HttpPost("Reset/{gameExternalId}")]
-        public async Task Reset(string gameExternalId)
+        [HttpPost("Reset/{gameCode}")]
+        public async Task Reset(string gameCode)
         {
-            await _gameService.ResetAsync(gameExternalId);
+            await _gameService.ResetAsync(gameCode);
         }
 
-        [HttpGet("Get/{gameExternalId}")]
-        public async Task<ActionResult> Get(string gameExternalId)
+        [HttpGet("Get/{gameCode}")]
+        public async Task<ActionResult> Get(string gameCode)
         {
-            var game = await _gameService.GetAsync(gameExternalId);
+            var game = await _gameService.GetAsync(gameCode);
             if (game == null)
             {
-                return NotFound($"No GameResponse with external id {gameExternalId} found");
+                return NotFound($"No game found with code: {gameCode}");
             }
 
             return Ok(game);

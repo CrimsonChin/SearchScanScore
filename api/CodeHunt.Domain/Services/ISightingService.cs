@@ -6,8 +6,8 @@ namespace CodeHunt.Domain.Services
 {
     public interface ISightingService
     {
-        Task AddSightingAsync(string gameExternalId, string guardExternalId, string teamExternalId);
+        Task AddSightingAsync(string gameCode, string guardCode, string teamCode);
 
-        Task<IEnumerable<SightingResponse>> GetSightingsAsync(string gameExternalId, string teamExternalId);
+        Task<IEnumerable<SightingResponse>> GetSightingsAsync(string gameCode, string teamCode);
     }
 }

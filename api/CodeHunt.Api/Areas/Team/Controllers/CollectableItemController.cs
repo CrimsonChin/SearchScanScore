@@ -16,20 +16,20 @@ namespace CodeHunt.Api.Areas.Team.Controllers
             _collectableItemService = collectableItemService;
         }
 
-        [HttpGet("Get/{gameExternalId}")]
-        public async Task<IActionResult> Get(string gameExternalId)
+        [HttpGet("Get/{gameCode}")]
+        public async Task<IActionResult> Get(string gameCode)
         {
-            var response = await _collectableItemService.GetAnonymousAsync(gameExternalId);
+            var response = await _collectableItemService.GetAnonymousAsync(gameCode);
 
             return Ok(response);
         }
 
-        [HttpGet("GetRemaining/{gameExternalId}/{teamExternalId}")]
-        public async Task<IActionResult> GetRemaining(string gameExternalId, string teamExternalId)
-        {
-            var collectableItems = await _collectableItemService.GetRemainingAsync(gameExternalId, teamExternalId);
+        //[HttpGet("GetRemaining/{gameCode}/{teamCode}")]
+        //public async Task<IActionResult> GetRemaining(string gameCode, string teamCode)
+        //{
+        //    var collectableItems = await _collectableItemService.GetRemainingAsync(gameCode, teamCode);
 
-            return Ok(collectableItems);
-        }
+        //    return Ok(collectableItems);
+        //}
     }
 }

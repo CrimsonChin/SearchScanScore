@@ -17,6 +17,7 @@ namespace CodeHunt.Domain.Mappers
             return new CollectableItemResponse
             {
                 ExternalId = entity.ExternalId,
+                Code = entity.Code,
                 Name = entity.Name
             };
         }

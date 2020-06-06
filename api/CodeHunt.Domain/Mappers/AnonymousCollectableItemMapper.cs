@@ -20,6 +20,7 @@ namespace CodeHunt.Domain.Mappers
         {
             return new AnonymousCollectableItemResponse
             {
+                ExternalId = entity.ExternalId,
                 Name = entity.Name
             };
         }

@@ -90,7 +90,7 @@ class GameHarness extends React.Component {
               <div>Collectable Items {this.state.collectableItems.length}
                 <ol>
                   {this.state.collectableItems.map((item, i) => 
-                    <li key={i}>{item.externalId} - {item.name}</li>
+                    <li key={i}>{item.code} - {item.name}</li>
                   ) }
                 </ol>
               </div>

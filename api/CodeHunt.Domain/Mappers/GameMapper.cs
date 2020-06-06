@@ -26,6 +26,7 @@ namespace CodeHunt.Domain.Mappers
             return new GameResponse
             {
                 ExternalId = game.ExternalId,
+                Code = game.Code,
                 Name = game.Name,
                 IsActive = game.IsActive,
                 Teams = _teamMapper.Map(game.Teams),

@@ -19,11 +19,11 @@ namespace CodeHunt.Api.Areas.Guard.Controllers
             _teamNotificationService = teamNotificationService;
         }
 
-        [HttpPost("Add/{gameExternalId}/{guardExternalId}/{teamExternalId}")]
-        public async Task<IActionResult> Add(string gameExternalId, string guardExternalId, string teamExternalId)
+        [HttpPost("Add/{gameCode}/{guardCode}/{teamCode}")]
+        public async Task<IActionResult> Add(string gameCode, string guardCode, string teamCode)
         {
-            await _sightingService.AddSightingAsync(gameExternalId, guardExternalId, teamExternalId);
-            await _teamNotificationService.SendSightedNotificationAsync(gameExternalId, teamExternalId, guardExternalId);
+            await _sightingService.AddSightingAsync(gameCode, guardCode, teamCode);
+            await _teamNotificationService.SendSightedNotificationAsync(gameCode, teamCode, guardCode);
 
             return Ok(true);
         }

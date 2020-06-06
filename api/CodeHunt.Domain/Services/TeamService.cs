@@ -24,34 +24,34 @@ namespace CodeHunt.Domain.Services
             _teamMapper = teamMapper;
         }
 
-        public async Task<bool> CanJoinTeamAsync(string gameExternalId, string teamExternalId)
+        public async Task<bool> CanJoinTeamAsync(string gameCode, string teamCode)
         {
-            var game = await _gameRepository.GetAsync(gameExternalId);
+            var game = await _gameRepository.GetAsync(gameCode);
 
-            var team = game?.Teams.FirstOrDefault(x => x.ExternalId == teamExternalId);
+            var team = game?.Teams.FirstOrDefault(x => x.Code == teamCode);
             return team != null;
         }
 
-        public async Task<TeamResponse> GetTeamAsync(string gameExternalId, string teamExternalId)
+        public async Task<TeamResponse> GetTeamAsync(string gameCode, string teamCode)
         {
-            var game = await _gameRepository.GetAsync(gameExternalId);
+            var game = await _gameRepository.GetAsync(gameCode);
             if (game == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound,
-                    $"No game found with external Id: {gameExternalId}");
+                    $"No game found with code: {gameCode}");
             }
 
             if (game.IsActive == false)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound,
-                    $"No active game found with external Id: {gameExternalId}");
+                    $"No active game found with code: {gameCode}");
             }
 
-            var team = game.Teams.SingleOrDefault(x => x.ExternalId == teamExternalId);
+            var team = game.Teams.SingleOrDefault(x => x.Code == teamCode);
             if (team == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound,
-                    $"No team found with external Id: {teamExternalId}");
+                    $"No team found with code: {teamCode}");
             }
 
             team = await _teamRepository.Get(team.TeamId);

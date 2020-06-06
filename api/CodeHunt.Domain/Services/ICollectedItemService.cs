@@ -6,8 +6,8 @@ namespace CodeHunt.Domain.Services
 {
     public interface ICollectedItemService
     {
-        Task AddCollectedItemAsync(string gameExternalId, string teamExternalId, string itemExternalId);
+        Task AddCollectedItemAsync(string gameCode, string teamCode, string itemCode);
 
-        Task<IEnumerable<CollectedItemResponse>> GetCollectedItemsAsync(string gameExternalId, string teamExternalId);
+        Task<IEnumerable<CollectedItemResponse>> GetCollectedItemsAsync(string gameCode, string teamCode);
     }
 }

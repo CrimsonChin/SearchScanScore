@@ -6,6 +6,8 @@ namespace CodeHunt.Domain.Entities
     {
         public int SightingId { get; set; }
 
+        public Guid ExternalId { get; set; }
+
         public DateTime SightedAt { get; set; }
 
         public int TeamId { get; set; }

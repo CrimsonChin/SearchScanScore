@@ -18,26 +18,26 @@ namespace CodeHunt.Domain.Services
             _gameMapper = gameMapper;
         }
 
-        public async Task<GameResponse> GetAsync(string gameExternalId)
+        public async Task<GameResponse> GetAsync(string gameCode)
         {
-            var game = await _gameRepository.GetAsync(gameExternalId);
+            var game = await _gameRepository.GetAsync(gameCode);
 
             return _gameMapper.Map(game);
         }
 
-        public async Task StartGameAsync(string gameExternalId)
+        public async Task StartGameAsync(string gameCode)
         {
-            await SetIsActiveStateAsync(gameExternalId, true);
+            await SetIsActiveStateAsync(gameCode, true);
         }
 
-        public async Task StopGameAsync(string gameExternalId)
+        public async Task StopGameAsync(string gameCode)
         {
-            await SetIsActiveStateAsync(gameExternalId, false);
+            await SetIsActiveStateAsync(gameCode, false);
         }
 
-        public async Task ResetAsync(string gameExternalId)
+        public async Task ResetAsync(string gameCode)
         {
-            _gameRepository.Reset(gameExternalId);
+            _gameRepository.Reset(gameCode);
             await _gameRepository.UnitOfWork.SaveChangesAsync();
         }
 
@@ -46,7 +46,7 @@ namespace CodeHunt.Domain.Services
             var game = await _gameRepository.GetAsync(gameExternalId);
             if (game == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound, $"No game found with external Id: {gameExternalId}");
+                throw new HttpResponseException(HttpStatusCode.NotFound, $"No game found with code: {gameExternalId}");
             }
 
             if (game.IsActive == isActive)

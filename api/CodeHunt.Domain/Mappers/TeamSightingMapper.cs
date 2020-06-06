@@ -21,6 +21,7 @@ namespace CodeHunt.Domain.Mappers
         {
             return new SightingResponse
             {
+                ExternalId = entity.ExternalId,
                 SightedAt = entity.SightedAt,
                 SightedBy = entity.Guard.Name
             };

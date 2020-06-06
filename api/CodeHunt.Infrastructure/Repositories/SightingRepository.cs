@@ -24,11 +24,11 @@ namespace CodeHunt.Infrastructure.Repositories
             return _context.Sightings.Add(sighting).Entity;
         }
 
-        public async Task<IEnumerable<Sighting>> GetAsync(string gameExternalId, string teamExternalId)
+        public async Task<IEnumerable<Sighting>> GetAsync(string gameCode, string teamCode)
         {
             var team = await _context.Teams
-                .Where(x => x.ExternalId == teamExternalId
-                            && x.Game.ExternalId == gameExternalId)
+                .Where(x => x.Code == teamCode
+                            && x.Game.Code == gameCode)
                 .Include(x => x.Sightings)
                 .ThenInclude(y => y.Guard)
                 .FirstOrDefaultAsync();

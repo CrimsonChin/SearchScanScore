@@ -44,13 +44,13 @@ class TestHarness extends React.Component {
                 <div>
                   <h2>Guards</h2>
                   {this.state.guards.map((item, i) => 
-                    <GuardHarness key={i} guardName={item.name} gameId={this.state.gameId} guardId={item.externalId}></GuardHarness>
+                    <GuardHarness key={i} guardName={item.name} gameId={this.state.gameId} guardId={item.code}></GuardHarness>
                   )}
                 </div>
                 <div>
                   <h2>Teams</h2>
                   {this.state.teams.map((item, i) => 
-                    <TeamHarness key={i} teamName={item.name} gameId={this.state.gameId} teamId={item.externalId}></TeamHarness>
+                    <TeamHarness key={i} teamName={item.name} gameId={this.state.gameId} teamId={item.code}></TeamHarness>
                   )}
                 </div>
               </>
