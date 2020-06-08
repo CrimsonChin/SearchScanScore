@@ -70,7 +70,17 @@ namespace CodeHunt.Domain.Services
 
         public async Task<IEnumerable<CollectedItemResponse>> GetCollectedItemsAsync(string gameCode, string teamCode)
         {
-            // TODO validation
+            var game = await _gameRepository.GetAsync(gameCode);
+            if (game == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound, $"No game found with code: {gameCode}");
+            }
+
+            var team = game.Teams.SingleOrDefault(x => x.Code == teamCode);
+            if (team == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound, $"No team found with code: {teamCode}");
+            }
 
             var collectedItems = await _collectedItemRepository.GetCollectedItemsAsync(gameCode, teamCode);
 

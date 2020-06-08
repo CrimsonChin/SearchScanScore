@@ -23,13 +23,5 @@ namespace CodeHunt.Api.Areas.Team.Controllers
 
             return Ok(response);
         }
-
-        //[HttpGet("GetRemaining/{gameCode}/{teamCode}")]
-        //public async Task<IActionResult> GetRemaining(string gameCode, string teamCode)
-        //{
-        //    var collectableItems = await _collectableItemService.GetRemainingAsync(gameCode, teamCode);
-
-        //    return Ok(collectableItems);
-        //}
     }
 }
