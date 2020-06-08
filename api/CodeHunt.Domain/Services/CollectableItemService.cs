@@ -39,34 +39,5 @@ namespace CodeHunt.Domain.Services
 
             return response;
         }
-
-        public async Task<IEnumerable<AnonymousCollectableItemResponse>> GetRemainingAsync(string gameCode, string teamCode)
-        {
-            var game = await _gameRepository.GetAsync(gameCode);
-            if (game == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound, $"No game found with code: {gameCode}");
-            }
-
-            if (game.IsActive == false)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound, $"No active game found with code: {gameCode}");
-            }
-
-            var team = game.Teams.SingleOrDefault(x => x.Code == teamCode);
-            if (team == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound, $"No team found with code: {teamCode}");
-            }
-
-            team = await _teamRepository.Get(team.TeamId);
-            var remainingItems = game.CollectableItems.Where(x =>
-                !team.CollectedItems.Select(y => y.CollectableItem.CollectableItemId)
-                    .Contains(x.CollectableItemId));
-
-            var response = _anonymousCollectableItemMapper.Map(remainingItems);
-
-            return response;
-        }
     }
 }
