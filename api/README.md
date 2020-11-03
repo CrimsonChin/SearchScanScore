@@ -14,9 +14,12 @@ DotNetCore 3.1 Web API
 - [ ] Use Filters for validation
 - [ ] Use Request Objects
 - [ ] Use schema definitions
+
+## Backlog
 - [ ] Require login to access anything in the admin area
 - [ ] Introduce game status' (Offline, Ready, Started, Finished)
-- [ ] Get Active game from cache
+- [ ] Wiki / Documentation
+- [ ] Get Active games from cache
 - [ ] Tests (Unit and Acceptance)
 - [ ] Containerize 
 - [ ] Pipelines
