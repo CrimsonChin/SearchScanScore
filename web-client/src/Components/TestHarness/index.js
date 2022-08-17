@@ -1,7 +1,8 @@
 import React from 'react'
 import GameService from '../../Services/GameService'
-import TeamHarness from './teamHarness'
 import GameHarness from './gameHarness'
+import GuardHarness from './guardHarness'
+import TeamHarness from './teamHarness'
 import './harness.css'
 
 class TestHarness extends React.Component {
@@ -25,6 +26,7 @@ class TestHarness extends React.Component {
            isLoaded: true,
            isActive: data.IsActive,
            collectableItems: data.CollectableItems,
+           guards: data.Guards, 
            teams: data.Teams 
          })
         })
@@ -39,6 +41,12 @@ class TestHarness extends React.Component {
             { this.state.isLoaded && (
               <>
                 <GameHarness gameId={this.state.gameId} isActive={this.state.isActive} collectableItems={this.state.collectableItems}></GameHarness>
+                <div>
+                  <h2>Guards</h2>
+                  {this.state.guards.map((item, i) => 
+                    <GuardHarness key={i} guardName={item.Name} gameId={this.state.gameId} guardId={item.ExternalId}></GuardHarness>
+                  )}
+                </div>
                 <div>
                   <h2>Teams</h2>
                   {this.state.teams.map((item, i) => 

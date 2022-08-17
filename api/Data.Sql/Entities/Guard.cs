@@ -1,19 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace Data.Sql.Entities
 {
-    public class Team
+    public class Guard
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int TeamId { get; set; }
+        public int GuardId { get; set; }
+
         public string ExternalId { get; set; }
+
         public string Name { get; set; }
 
         public int GameId { get; set; }
         public Game Game { get; set; }
-
-        public ICollection<CollectedItem> CollectedItems { get; set; }
 
         public IEnumerable<Sighting> Sightings { get; set; }
     }
